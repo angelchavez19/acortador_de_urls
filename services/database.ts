@@ -9,12 +9,11 @@ const opendb = async () => {
   });
 };
 
-export const isUniqueEmail = async (email: string) => {
+export const isUnique = async (field: string, value: string) => {
   const db = await opendb();
-  const res = await db.get(`SELECT email FROM user WHERE email=?;`, [email]);
+  const res = await db.get(`SELECT id FROM user WHERE ${field}=?;`, [value]);
   db.close();
-  if (res) return false;
-  return true;
+  return !Boolean(res);
 };
 
 export const insertUser = async (
@@ -30,4 +29,14 @@ export const insertUser = async (
     [name, email, hashPassword, 0, token]
   );
   db.close();
+};
+
+export const confirmUser = async (token: string) => {
+  const db = await opendb();
+  const { changes } = await db.run(
+    `UPDATE user SET confirm=1, token='' WHERE token=?`,
+    [token]
+  );
+  db.close();
+  return Boolean(changes);
 };

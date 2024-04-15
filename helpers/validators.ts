@@ -24,8 +24,8 @@ export const useValidators = () => {
   let lang = locale.value;
 
   const isRequired = (value: string) => {
-    if (required(value)) return true;
-    return getTranslate(lang, "required");
+    if (!required(value)) return getTranslate(lang, "required");
+    return true;
   };
 
   const validateEmail = (value: string): true | string => {

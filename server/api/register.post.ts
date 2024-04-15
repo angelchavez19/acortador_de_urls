@@ -2,7 +2,7 @@ import { UserCreate } from "~/interfaces/user";
 import { sendMail } from "~/helpers/mail";
 import { required, isEmail, isPassword } from "~/helpers/validators";
 import { getToken } from "~/helpers/token";
-import { isUniqueEmail, insertUser } from "~/services/database";
+import { isUnique, insertUser } from "~/services/database";
 
 export default defineEventHandler(async (event) => {
   const user: UserCreate = await readBody(event);
@@ -16,12 +16,14 @@ export default defineEventHandler(async (event) => {
     return;
   }
 
-  if (!(await isUniqueEmail(user.email))) {
+  if (!(await isUnique("email", user.email))) {
     setResponseStatus(event, 409);
     return;
   }
 
-  const token = getToken();
+  let token = getToken();
+  while (!(await isUnique("token", token))) token = getToken();
+
   const href = `${process.env.SERVER}confirm/${token}`;
   insertUser(user.name, user.email, user.password, token);
   await sendMail(
