@@ -1,17 +1,8 @@
 <script setup lang="ts">
 definePageMeta({ layout: "header" });
-import { ref, type Ref } from "vue";
+import { useConfirmedPage } from "~/composables/pages/confirmed";
 
-let confirmed: Ref<null | boolean> = ref(null);
-
-onMounted(async () => {
-  let {
-    params: { token },
-  } = useRoute();
-
-  const data = await $fetch(`/api/confirm/${token}`);
-  confirmed.value = data.confirmed;
-});
+let { confirmed } = useConfirmedPage();
 </script>
 
 <template>

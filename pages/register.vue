@@ -13,27 +13,27 @@ const max50 = validateMax(50);
     <Form :handle-submit="handleSubmit">
       <FormInputText
         v-model="name"
-        :label="$t('register.form.name')"
+        :label="$t('forms.input.name')"
         input-id="name"
         type="text"
         autocomplete="name"
-        :placeholder="$t('register.form.name')"
+        :placeholder="$t('forms.input.name')"
         :rules="[isRequired, max50]"
       />
       <FormInputText
         v-model="email"
-        :label="$t('register.form.email')"
+        :label="$t('forms.input.email')"
         input-id="email"
         type="email"
         autocomplete="email"
-        :placeholder="$t('register.form.email')"
+        :placeholder="$t('forms.input.email')"
         :rules="[validateEmail]"
       />
       <FormInputPassword
         v-model="password"
-        :label="$t('register.form.password')"
+        :label="$t('forms.input.password')"
         input-id="password"
-        :placeholder="$t('register.form.password')"
+        :placeholder="$t('forms.input.password')"
       />
       <FormInputSubmit :value="$t('register.form.login')" />
       <FormMessage
@@ -44,5 +44,3 @@ const max50 = validateMax(50);
     </Form>
   </AuthForm>
 </template>
-
-<style scope lang="sass"></style>
