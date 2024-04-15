@@ -1,7 +1,6 @@
 <script setup lang="ts">
-defineProps({
-  title: { type: String, required: true },
-});
+defineProps({ title: { type: String, required: true } });
+import { Toaster } from "vue-sonner";
 </script>
 
 <template>
@@ -13,6 +12,7 @@ defineProps({
         <slot />
       </div>
     </section>
+    <Toaster />
   </main>
 </template>
 
