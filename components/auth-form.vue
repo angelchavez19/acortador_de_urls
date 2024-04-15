@@ -30,6 +30,7 @@ section
     padding: 1rem
     border-radius: 20px
     gap: 1rem
+    margin-top: 1.5rem
     .FormAuth-logo
       width: $logo-size
       height: $logo-size

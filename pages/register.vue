@@ -1,18 +1,11 @@
 <script setup lang="ts">
-import { ref, type Ref } from "vue";
 import { useValidators } from "~/helpers/validators";
+import { useRegisterPage } from "~/composables/pages/register";
 
-const { isRequired, validateEmail } = useValidators();
+const { isRequired, validateEmail, validateMax } = useValidators();
+let { handleSubmit, name, email, password } = useRegisterPage();
 
-let name: Ref<string> = ref("");
-let email: Ref<string> = ref("");
-let password: Ref<string> = ref("");
-
-const handleSubmit = () => {
-  console.log(name.value);
-  console.log(email.value);
-  console.log(password.value);
-};
+const max50 = validateMax(50);
 </script>
 
 <template>
@@ -25,7 +18,7 @@ const handleSubmit = () => {
         type="text"
         autocomplete="name"
         :placeholder="$t('register.form.name')"
-        :rules="[isRequired]"
+        :rules="[isRequired, max50]"
       />
       <FormInputText
         v-model="email"

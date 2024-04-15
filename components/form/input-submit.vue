@@ -20,4 +20,7 @@ defineProps({
   color: $color-2
   font-size: 1.2rem
   text-transform: uppercase
+  cursor: pointer
+.FormSubmit:active
+  transform: scale(.95)
 </style>

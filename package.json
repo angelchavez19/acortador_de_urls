@@ -7,18 +7,28 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "create_bd": "node --loader ts-node/esm scripts.ts"
   },
   "dependencies": {
     "@vee-validate/rules": "^4.12.6",
+    "bcrypt": "^5.1.1",
+    "nodemailer": "^6.9.13",
     "nuxt": "^3.11.2",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
+    "uuid": "^9.0.1",
     "vee-validate": "^4.12.6",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "vue-sonner": "^1.1.2"
   },
   "devDependencies": {
     "@nuxtjs/i18n": "^8.3.0",
+    "@types/bcrypt": "^5.0.2",
+    "@types/nodemailer": "^6.4.14",
+    "@types/uuid": "^9.0.8",
     "sass": "^1.75.0",
-    "yup": "^1.4.0"
+    "ts-node": "^10.9.2"
   }
 }

@@ -13,16 +13,19 @@ defineProps({
 <template>
   <FormInputBase>
     <label class="InputLabel" :for="inputId">{{ label }}</label>
-    <VeeField
-      class="InputField"
-      @input="$emit('update:modelValue', $event.target?.value)"
-      :name="inputId"
-      :id="inputId"
-      :type="type"
-      :placeholder="placeholder"
-      :autocomplete="autocomplete"
-      :rules="rules"
-    />
+    <VeeField :name="inputId">
+      <input
+        class="InputField"
+        @input="$emit('update:modelValue', $event.target?.value)"
+        :value="modelValue"
+        :name="inputId"
+        :id="inputId"
+        :type="type"
+        :placeholder="placeholder"
+        :autocomplete="autocomplete"
+        :rules="rules"
+      />
+    </VeeField>
     <VeeError class="InputError" :name="inputId" />
   </FormInputBase>
 </template>

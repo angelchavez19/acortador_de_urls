@@ -17,16 +17,19 @@ let hidden: Ref<boolean> = ref(true);
   <FormInputBase>
     <label class="InputLabel" :for="inputId">{{ label }}</label>
     <div class="InputPasswordContainer">
-      <VeeField
-        class="InputField"
-        @input="$emit('update:modelValue', $event.target?.value)"
-        :name="inputId"
-        :id="inputId"
-        :type="hidden ? 'password' : 'text'"
-        :placeholder="placeholder"
-        autocomplete="new-password"
-        :rules="[isRequired, validatePassword]"
-      />
+      <VeeField :name="inputId">
+        <input
+          class="InputField"
+          @input="$emit('update:modelValue', $event.target?.value)"
+          :value="modelValue"
+          :name="inputId"
+          :id="inputId"
+          :type="hidden ? 'password' : 'text'"
+          :placeholder="placeholder"
+          autocomplete="new-password"
+          :rules="[isRequired, validatePassword]"
+        />
+      </VeeField>
       <button
         :aria-label="$t('forms.passwordAriaLabel')"
         type="button"

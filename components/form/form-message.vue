@@ -15,6 +15,7 @@ defineProps({
 <style scope lang="sass">
 .FormMessage
   color: $color-2
+  text-align: center
   a
     color: $light-blue
 </style>

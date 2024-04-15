@@ -5,7 +5,8 @@ type messageValue =
   | "lowercase"
   | "number"
   | "symbol"
-  | "length12";
+  | "length12"
+  | "maxlength";
 
 const messages = {
   en: {
@@ -16,6 +17,8 @@ const messages = {
     number: "This field must contain at least one number",
     symbol: "This field must contain at least one symbol: !#$%&/",
     length12: "This field must have at least 12 characters",
+    maxlength: (max: number) =>
+      `This field must be less than ${max} characters`,
   },
   es: {
     required: "Este campo es requerido",
@@ -25,11 +28,21 @@ const messages = {
     number: "Este campo debe contener al menos un número",
     symbol: "Este campo debe contener al menos un simbolo: !#$%&/",
     length12: "Este campo debe tener como mínimo 12 caracteres",
+    maxlength: (max: number): string =>
+      `Este campo debe contener menos de ${max} caracteres`,
   },
 };
 
-export const getTranslate = (localeValue: string, message: messageValue) => {
-  if (localeValue === "en") return messages.en[message];
-  if (localeValue === "es") return messages.es[message];
-  return "Error";
+export const getTranslate = (
+  localeValue: string,
+  message: messageValue,
+  params: any[] = []
+) => {
+  let translate: any = null;
+  if (localeValue === "en") translate = messages.en[message];
+  else if (localeValue === "es") translate = messages.es[message];
+  else translate = "Error";
+
+  if (typeof translate === "string") return translate;
+  else return translate(...params);
 };
