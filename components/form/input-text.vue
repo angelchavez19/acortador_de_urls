@@ -1,33 +1,28 @@
 <script setup lang="ts">
 defineProps({
   label: { type: String },
-  modelValue: { type: String, required: true },
-  inputId: { type: String, required: true },
   type: { type: String },
+  name: { type: String },
   placeholder: { type: String },
   autocomplete: { type: String },
   rules: { type: Array },
+  as: { type: String },
 });
 </script>
 
 <template>
-  <FormInputBase>
-    <label class="InputLabel" :for="inputId">{{ label }}</label>
-    <VeeField :name="inputId">
-      <input
-        class="InputField"
-        @input="$emit('update:modelValue', $event.target?.value)"
-        :value="modelValue"
-        :name="inputId"
-        :id="inputId"
-        :type="type"
-        :placeholder="placeholder"
-        :autocomplete="autocomplete"
-        :rules="rules"
-      />
-    </VeeField>
-    <VeeError class="InputError" :name="inputId" />
-  </FormInputBase>
+  <label class="InputLabel" :for="name">{{ label }}</label>
+  <VeeField
+    :as="as"
+    class="InputField"
+    :name="name"
+    :id="name"
+    :type="type"
+    :placeholder="placeholder"
+    :autocomplete="autocomplete"
+    :rules="rules"
+  />
+  <VeeError class="InputError" :name="name" />
 </template>
 
 <style scope lang="sass">

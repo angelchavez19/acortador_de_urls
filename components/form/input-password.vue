@@ -1,9 +1,9 @@
 <script setup lang="ts">
 defineProps({
-  modelValue: { type: String, required: true },
-  inputId: { type: String, required: true },
+  name: { type: String, required: true },
   label: { type: String },
   placeholder: { type: String },
+  type: { type: String },
 });
 import { ref, type Ref } from "vue";
 import { useValidators } from "~/helpers/validators";
@@ -14,33 +14,27 @@ let hidden: Ref<boolean> = ref(true);
 </script>
 
 <template>
-  <FormInputBase>
-    <label class="InputLabel" :for="inputId">{{ label }}</label>
-    <div class="InputPasswordContainer">
-      <VeeField :name="inputId">
-        <input
-          class="InputField"
-          @input="$emit('update:modelValue', $event.target?.value)"
-          :value="modelValue"
-          :name="inputId"
-          :id="inputId"
-          :type="hidden ? 'password' : 'text'"
-          :placeholder="placeholder"
-          autocomplete="new-password"
-          :rules="[isRequired, validatePassword]"
-        />
-      </VeeField>
-      <button
-        :aria-label="$t('forms.passwordAriaLabel')"
-        type="button"
-        @click="hidden = !hidden"
-      >
-        <IconEye v-show="hidden" />
-        <IconEyeInvisible v-show="!hidden" />
-      </button>
-    </div>
-    <VeeError class="InputError" :name="inputId" />
-  </FormInputBase>
+  <label class="InputLabel" :for="name">{{ label }}</label>
+  <div class="InputPasswordContainer">
+    <VeeField
+      class="InputField"
+      :name="name"
+      :id="name"
+      :type="hidden ? 'password' : 'text'"
+      :placeholder="placeholder"
+      autocomplete="new-password"
+      :rules="[isRequired, validatePassword]"
+    />
+    <button
+      :aria-label="$t('forms.passwordAriaLabel')"
+      type="button"
+      @click="hidden = !hidden"
+    >
+      <IconEye v-show="hidden" />
+      <IconEyeInvisible v-show="!hidden" />
+    </button>
+  </div>
+  <VeeError class="InputError" :name="name" />
 </template>
 
 <style scope lang="sass">

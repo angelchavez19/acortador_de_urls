@@ -3,7 +3,7 @@ import { useI18n } from "vue-i18n";
 
 const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
-export const required = (value: string) => value && value.trim();
+export const required = (value: string) => Boolean(value && value.trim());
 export const isEmail = (value: string) => regexEmail.test(value);
 export const containUppercase = (value: string) => /.*[A-Z].*/.test(value);
 export const containLowercase = (value: string) => /.*[a-z].*/.test(value);
@@ -17,7 +17,7 @@ export const isPassword = (value: string) =>
   containSymbol(value) &&
   length12(value);
 export const max = (value: string, maxLength: number) =>
-  value.length <= maxLength;
+  required(value) && value.length <= maxLength;
 
 export const useValidators = () => {
   let { locale } = useI18n();

@@ -5,7 +5,7 @@ defineProps({
 </script>
 
 <template>
-  <button class="FormSubmit">
+  <button type="submit" class="FormSubmit">
     {{ value }}
   </button>
 </template>
