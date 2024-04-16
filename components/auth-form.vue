@@ -12,7 +12,7 @@ import { Toaster } from "vue-sonner";
         <slot />
       </div>
     </section>
-    <Toaster />
+    <Toaster class="Toaster" theme="dark" />
   </main>
 </template>
 

@@ -8,7 +8,7 @@ export const useConfirmedPage = () => {
       params: { token },
     } = useRoute();
 
-    const data = await $fetch(`/api/confirm/${token}`);
+    const data = await $fetch(`/api/confirm/${token}`, { method: "POST" });
     confirmed.value = data.confirmed;
   });
 

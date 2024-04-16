@@ -13,6 +13,7 @@
   "dependencies": {
     "@vee-validate/rules": "^4.12.6",
     "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
     "nodemailer": "^6.9.13",
     "nuxt": "^3.11.2",
     "sqlite": "^5.1.1",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@nuxtjs/i18n": "^8.3.0",
     "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/nodemailer": "^6.4.14",
     "@types/uuid": "^9.0.8",
     "sass": "^1.75.0",

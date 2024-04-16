@@ -1,6 +1,6 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
-import { encrypt } from "~/helpers/bcrypt";
+import { encrypt, compareCrypt } from "~/helpers/bcrypt";
 
 const opendb = async () => {
   return await open({
@@ -12,7 +12,7 @@ const opendb = async () => {
 export const isUnique = async (field: string, value: string) => {
   const db = await opendb();
   const res = await db.get(`SELECT id FROM user WHERE ${field}=?;`, [value]);
-  db.close();
+  await db.close();
   return !Boolean(res);
 };
 
@@ -24,11 +24,11 @@ export const insertUser = async (
 ) => {
   const db = await opendb();
   const hashPassword = await encrypt(password);
-  db.run(
+  await db.run(
     `INSERT INTO user (name, email, password, confirm, token) VALUES (?, ?, ?, ?, ?);`,
     [name, email, hashPassword, 0, token]
   );
-  db.close();
+  await db.close();
 };
 
 export const confirmUser = async (token: string) => {
@@ -37,6 +37,16 @@ export const confirmUser = async (token: string) => {
     `UPDATE user SET confirm=1, token='' WHERE token=?`,
     [token]
   );
-  db.close();
+  await db.close();
   return Boolean(changes);
+};
+
+export const verifyUser = async (email: string, password: string) => {
+  const db = await opendb();
+  const user = await db.get(`SELECT id, password FROM user WHERE email=?`, [
+    email,
+  ]);
+  await db.close();
+  if (!user) return [undefined, false];
+  return [user.id, await compareCrypt(password, user.password)];
 };

@@ -39,15 +39,20 @@ export const useRegisterPage = () => {
 
     for (let res of validators)
       if (res.isValid !== true) {
-        toast.error(t("register.error", { field: res.field }));
+        toast.error(t("toast.errorField", { field: res.field }));
         return false;
       }
 
-    toastPromise("/api/register", { name, email, password }, (data: any) => {
-      if (data.status === 400) return t("toast.errorRegister");
-      else if (data.status === 409) return t("toast.emailExists");
-      return "Error";
-    });
+    toastPromise(
+      "/api/register",
+      { name, email, password },
+      (_) => t("toast.successRegister"),
+      (data: any) => {
+        if (data.status === 400) return t("toast.errorRegister");
+        else if (data.status === 409) return t("toast.emailExists");
+        return "Error";
+      }
+    );
 
     return true;
   };

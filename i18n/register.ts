@@ -5,7 +5,6 @@ export const registerEN = {
     message: "Do you already have an account?",
     messageText: "Log In",
   },
-  error: "The field '{field}' is invalid.",
 };
 
 export const registerES = {
@@ -15,5 +14,4 @@ export const registerES = {
     message: "¿Ya tienes una cuenta?",
     messageText: "Inicia Sesión",
   },
-  error: "El campo '{field}' es invalido",
 };

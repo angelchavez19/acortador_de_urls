@@ -60,11 +60,10 @@ export const useValid = () => {
 };
 
 export const useToastPromise = () => {
-  const { t } = useI18n();
-
   const toastPromise = async (
     url: string,
     data: any,
+    callbackSuccess: (data: any) => string,
     callbackError: (data: any) => string,
     method: Method = "POST"
   ) => {
@@ -76,7 +75,7 @@ export const useToastPromise = () => {
       }),
       {
         loading: "Loading...",
-        success: (_) => t("toast.successRegister"),
+        success: callbackSuccess,
         error: callbackError,
       }
     );
