@@ -22,7 +22,8 @@
     "vee-validate": "^4.12.6",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
-    "vue-sonner": "^1.1.2"
+    "vue-sonner": "^1.1.2",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@nuxtjs/i18n": "^8.3.0",

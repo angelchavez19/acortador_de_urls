@@ -9,9 +9,15 @@ const opendb = async () => {
   });
 };
 
-export const isUnique = async (field: string, value: string) => {
+export const isUnique = async (
+  field: string,
+  value: string,
+  table: string = "user"
+) => {
   const db = await opendb();
-  const res = await db.get(`SELECT id FROM user WHERE ${field}=?;`, [value]);
+  const res = await db.get(`SELECT id FROM ${table} WHERE ${field}=?;`, [
+    value,
+  ]);
   await db.close();
   return !Boolean(res);
 };
@@ -49,4 +55,34 @@ export const verifyUser = async (email: string, password: string) => {
   await db.close();
   if (!user) return [undefined, false];
   return [user.id, await compareCrypt(password, user.password)];
+};
+
+export const insertUrl = async (
+  user_id: number,
+  url: string,
+  short_url: string
+) => {
+  const db = await opendb();
+  await db.run(
+    `INSERT INTO url (user_id, url, short_url, visits) VALUES (?, ?, ?, ?);`,
+    [user_id, url, short_url, 0]
+  );
+  await db.close();
+};
+
+export const visitUrl = async (short_url: string) => {
+  const db = await opendb();
+  try {
+    const res = await db.get(
+      `SELECT id, url, visits FROM url WHERE short_url=?;`,
+      [short_url]
+    );
+    if (res.visits > 10) await db.run(`DELETE FROM url WHERE id=?;`, [res.id]);
+    else await db.run(`UPDATE url SET visits=visits+1 WHERE id=?;`, [res.id]);
+    await db.close();
+    return res.url;
+  } catch {
+    await db.close();
+    return false;
+  }
 };

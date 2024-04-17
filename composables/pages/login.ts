@@ -16,7 +16,7 @@ export const useLoginPage = () => {
 
   const schema: SchemaType = {
     fields: [inputRequiredEmail, inputRequiredPassword],
-    submitValue: t("register.form.login"),
+    submitValue: t("login.form.login"),
     messages: [
       {
         message: t("login.message"),

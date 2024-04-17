@@ -9,10 +9,6 @@ const props = defineProps({
   },
 });
 
-// const emit = defineEmits({
-//   submit: (values: any) => Promise<boolean>,
-// });
-
 const getFields = (e: EventTarget) => {
   let fields: any = {};
   props.schema.fields.forEach(({ name }) => {

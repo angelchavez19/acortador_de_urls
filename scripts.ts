@@ -23,6 +23,6 @@ id INTEGER PRIMARY KEY AUTOINCREMENT,
 user_id INTEGER FOREING KEY NOT NULL,
 url TEXT NOT NULL,
 short_url TEXT NOT NULL,
-visitas INTEGER NOT NULL);`);
+visits INTEGER NOT NULL);`);
   db.close();
 })();
