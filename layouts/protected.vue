@@ -8,6 +8,7 @@ onMounted(async () => {
   const token = window.localStorage.getItem("token");
 
   if (!token) {
+    push("/login");
     auth.value = false;
     return;
   }
@@ -29,8 +30,32 @@ onMounted(async () => {
     </section>
   </main>
   <main v-else-if="!auth"></main>
-  <header v-if="auth">Header</header>
+
+  <BaseHeader
+    v-if="auth"
+    to="/urls"
+    :aria-label="$t('protected.urlsPageArial')"
+  >
+    <NuxtLink
+      to="/settings"
+      class="Setting"
+      :aria-label="$t('protected.settingsPageArial')"
+    >
+      <IconSetting />
+    </NuxtLink>
+  </BaseHeader>
   <main v-if="auth"><slot /></main>
 </template>
 
-<style scope lang="sass"></style>
+<style scope lang="sass">
+.Setting
+  @include flex-center-center()
+  background-color: $accent-1
+  width: 40px
+  height: 40px
+  border-radius: 50%
+  svg
+    width: 25px
+    height: 25px
+    fill: $white
+</style>

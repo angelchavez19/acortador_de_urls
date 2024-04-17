@@ -14,6 +14,10 @@ export default defineI18nConfig(() => ({
       login: loginEN,
       register: registerEN,
       toast: toastEN,
+      protected: {
+        urlsPageArial: "Go to the application",
+        settingsPageArial: "Go to settings",
+      },
     },
     es: {
       confirmed: confirmedES,
@@ -21,6 +25,10 @@ export default defineI18nConfig(() => ({
       login: loginES,
       register: registerES,
       toast: toastES,
+      protected: {
+        urlsPageArial: "Ir a la aplicación",
+        settingsPageArial: "Ir a las configuraciones",
+      },
     },
   },
 }));

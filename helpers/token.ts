@@ -10,5 +10,12 @@ export const getJWT = (payload: any) =>
     { algorithm: "HS256", expiresIn: 60 * 60 * 24 }
   );
 
-export const decodeJWT = <T>(token: string) =>
-  jwt.verify(token, process.env.SECRET_KEY, { algorithm: "HS256" }) as T;
+export const decodeJWT = <T>(token: string) => {
+  try {
+    return jwt.verify(token, process.env.SECRET_KEY, {
+      algorithm: "HS256",
+    }) as T;
+  } catch {
+    return {} as T;
+  }
+};

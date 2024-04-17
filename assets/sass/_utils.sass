@@ -1,6 +1,7 @@
 $bg-color: #F4F4F4
 $accent-1: #272727
 $accent-2: #D9D9D9
+$accent-3: #494949
 $color-1: #050810
 $color-2: #FFFFFF
 $light-blue: #2CB3CE
@@ -17,6 +18,11 @@ $danger: #F24141
     align-items: center
     justify-content: center
 
+@mixin flex-center-end()
+    display: flex
+    align-items: center
+    justify-content: flex-end
+
 @mixin flex-center-()
     display: flex
     align-items: center
@@ -24,3 +30,7 @@ $danger: #F24141
 @mixin flex--start()
     display: flex
     justify-content: flex-start
+
+@mixin flex--center()
+    display: flex
+    justify-content: center
