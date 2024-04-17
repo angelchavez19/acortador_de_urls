@@ -21,26 +21,4 @@ let { confirmed } = useConfirmedPage();
   </section>
 </template>
 
-<style scope lang="sass">
-.Confirmed
-  @include flex-center-center()
-  flex-direction: column
-  width: 100%
-  height: calc( 100vh - 2rem )
-  gap: 1rem
-  h1,
-  p
-    text-align: center
-  h1
-    font-size: 2rem
-  p
-    font-size: 1.5rem
-  a
-    padding: 1rem
-    outline: 1px solid $color-1
-    box-shadow: 0 0 5px 0 $accent-1
-    border-radius: 10px
-    margin-top: 1rem
-    text-decoration: none
-    color: $color-1
-</style>
+<style scope lang="sass"></style>

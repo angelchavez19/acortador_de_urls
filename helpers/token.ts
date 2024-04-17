@@ -9,3 +9,6 @@ export const getJWT = (payload: any) =>
     process.env.SECRET_KEY,
     { algorithm: "HS256", expiresIn: 60 * 60 * 24 }
   );
+
+export const decodeJWT = <T>(token: string) =>
+  jwt.verify(token, process.env.SECRET_KEY, { algorithm: "HS256" }) as T;
