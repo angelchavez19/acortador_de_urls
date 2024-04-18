@@ -15,11 +15,16 @@ export const isUnique = async (
   table: string = "user"
 ) => {
   const db = await opendb();
-  const res = await db.get(`SELECT id FROM ${table} WHERE ${field}=?;`, [
-    value,
-  ]);
-  await db.close();
-  return !Boolean(res);
+  try {
+    const res = await db.get(`SELECT id FROM ${table} WHERE ${field}=?;`, [
+      value,
+    ]);
+    await db.close();
+    return !Boolean(res);
+  } catch {
+    await db.close();
+    return true;
+  }
 };
 
 export const insertUser = async (
@@ -49,12 +54,18 @@ export const confirmUser = async (token: string) => {
 
 export const verifyUser = async (email: string, password: string) => {
   const db = await opendb();
-  const user = await db.get(`SELECT id, password FROM user WHERE email=?`, [
-    email,
-  ]);
-  await db.close();
-  if (!user) return [undefined, false];
-  return [user.id, await compareCrypt(password, user.password)];
+  try {
+    const user = await db.get(
+      `SELECT id, password, confirm FROM user WHERE email=?`,
+      [email]
+    );
+    await db.close();
+    if (!user || !user.confirm) return [undefined, false];
+    return [user.id, await compareCrypt(password, user.password)];
+  } catch {
+    await db.close();
+    return [undefined, false];
+  }
 };
 
 export const insertUrl = async (url: string, short_url: string) => {
