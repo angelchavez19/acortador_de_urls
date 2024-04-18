@@ -9,10 +9,20 @@ $light-blue: #2CB3CE
 $white: #FFFFFF
 $danger: #F24141
 
+@mixin flex-stretch-evenly()
+    display: flex
+    align-items: stretch
+    justify-content: space-evenly
+
 @mixin flex-center-evenly()
     display: flex
     align-items: center
     justify-content: space-evenly
+
+@mixin flex-end-center()
+    display: flex
+    align-items: flex-end
+    justify-content: center
 
 @mixin flex-center-center()
     display: flex

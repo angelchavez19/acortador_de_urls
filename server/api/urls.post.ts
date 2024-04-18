@@ -1,5 +1,4 @@
 import { string } from "yup";
-import { urlsInUse } from "~/constants/urls-in-use";
 import { getTokenUrl } from "~/helpers/token";
 import { isUnique, insertUrl } from "~/services/database";
 
@@ -8,7 +7,7 @@ const getToken = () => {
   let count = 0;
   while (!isUnique("short_url", "shortUrl", "url")) {
     shortUrl = getTokenUrl();
-    if (!urlsInUse.has(shortUrl)) count++;
+    count++;
     if (count > 10) return "";
   }
   return shortUrl;

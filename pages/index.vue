@@ -1,46 +1,12 @@
 <script setup lang="ts">
 definePageMeta({ layout: "header" });
+import { useIndexPage } from "~/composables/pages";
 
-import { ref, type Ref } from "vue";
-import { toast } from "vue-sonner";
-import { useI18n } from "vue-i18n";
-
-let { t } = useI18n();
-
-let url: Ref<string> = ref("");
-let shortUrl: Ref<undefined | string> = ref(undefined);
-
-const handleSubmit = () => {
-  if (!url.value) {
-    toast.error(t("toast.errorField", { field: "url" }));
-    return;
-  }
-
-  toast.promise(
-    $fetch("/api/urls", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ url: url.value }),
-    }),
-    {
-      loading: "Loading...",
-      success: (data: any) => {
-        shortUrl.value = data.shortUrl;
-        return t("toast.successUrl");
-      },
-      error: (data: any) => {
-        if (data.status === 400) return t("toast.errorUrl");
-        if (data.status === 507) return t("toast.errorUrl507");
-        return "Error";
-      },
-    }
-  );
-  url.value = "";
-};
+let { handleSubmit, url, shortUrl, content } = useIndexPage();
 </script>
 
 <template>
-  <section class="Hero">
+  <section class="Hero" id="occasional">
     <IconLogo />
     <form class="Hero-form" novalidate @submit.prevent="handleSubmit">
       <input
@@ -58,6 +24,12 @@ const handleSubmit = () => {
       <Copy :text="shortUrl" />
     </div>
   </section>
+  <section class="Plans">
+    <h2>{{ $t("index.titleSection") }}</h2>
+    <div class="Plans-content">
+      <CardPlan v-for="cont in content" :content="cont" />
+    </div>
+  </section>
 </template>
 
 <style scope lang="sass">
@@ -67,12 +39,14 @@ const handleSubmit = () => {
   a
     color: $color-2
     text-decoration: none
-.Hero
-  @include flex-center-evenly()
-  flex-direction: column
+.Hero,
+.Plans
   padding-top: 2rem
   width: calc( 100% - 2rem )
   gap: 1.5rem
+  flex-direction: column
+.Hero
+  @include flex-center-evenly()
   svg
     width: 180px
     height: 180px
@@ -104,4 +78,14 @@ const handleSubmit = () => {
     button svg
       width: 25px
       height: 25px
+.Plans
+  @include flex-center-()
+  h2
+    color: $color-1
+    text-align: center
+  .Plans-content
+    @include flex-stretch-evenly()
+    flex-wrap: wrap
+    width: 100%
+    gap: 2rem
 </style>

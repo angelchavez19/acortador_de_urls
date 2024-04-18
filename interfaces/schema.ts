@@ -15,3 +15,19 @@ export interface SchemaType {
     text: string;
   }[];
 }
+
+export interface ContentSchema {
+  title: string;
+  pricing: string;
+  card: {
+    value: string;
+    message?: string;
+  }[];
+  start: string;
+  to: string;
+}
+
+export interface IndexContentPlans {
+  en: ContentSchema[];
+  es: ContentSchema[];
+}
