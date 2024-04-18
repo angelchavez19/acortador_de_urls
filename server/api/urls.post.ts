@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
     return;
   }
 
-  await insertUrl(-1, response.url, shortUrl);
+  await insertUrl(response.url, shortUrl);
 
   return { shortUrl: `${process.env.SERVER}u/${shortUrl}` };
 });

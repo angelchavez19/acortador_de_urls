@@ -57,15 +57,11 @@ export const verifyUser = async (email: string, password: string) => {
   return [user.id, await compareCrypt(password, user.password)];
 };
 
-export const insertUrl = async (
-  user_id: number,
-  url: string,
-  short_url: string
-) => {
+export const insertUrl = async (url: string, short_url: string) => {
   const db = await opendb();
   await db.run(
-    `INSERT INTO url (user_id, url, short_url, visits) VALUES (?, ?, ?, ?);`,
-    [user_id, url, short_url, 0]
+    `INSERT INTO url (url, short_url, visits) VALUES (?, ?, ?, ?);`,
+    [url, short_url, 0]
   );
   await db.close();
 };
@@ -77,7 +73,7 @@ export const visitUrl = async (short_url: string) => {
       `SELECT id, url, visits FROM url WHERE short_url=?;`,
       [short_url]
     );
-    if (res.visits > 10) await db.run(`DELETE FROM url WHERE id=?;`, [res.id]);
+    if (res.visits > 30) await db.run(`DELETE FROM url WHERE id=?;`, [res.id]);
     else await db.run(`UPDATE url SET visits=visits+1 WHERE id=?;`, [res.id]);
     await db.close();
     return res.url;
