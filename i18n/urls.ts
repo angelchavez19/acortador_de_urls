@@ -19,6 +19,11 @@ export const urlsEN = {
   },
   ariaSaveButton: "Save URL",
   ariaCopyButton: "Copy to clipboard",
+  table: {
+    short_url: "Short URL",
+    visits: "Visits",
+    delete: "Delete",
+  },
 };
 
 export const urlsES = {
@@ -42,4 +47,9 @@ export const urlsES = {
   },
   ariaSaveButton: "Guardar url",
   ariaCopyButton: "Copiar en el portapapeles",
+  table: {
+    short_url: "URL corta",
+    visits: "Visitas",
+    delete: "Eliminar",
+  },
 };

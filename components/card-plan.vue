@@ -59,28 +59,6 @@ defineProps({
         margin-left: 1rem
         width: 16px
         height: 16px
-      [data-title]:hover:after
-        opacity: 1
-        transition: all 0.1s ease 0.5s
-        display: block
-      [data-title]:after
-        content: attr(data-title)
-        background-color: $accent-3
-        color: $color-2
-        font-size: 14px
-        position: absolute
-        padding: 7px
-        bottom: -45px
-        right: -65px
-        white-space: nowrap
-        font-weight: 900
-        opacity: 0
-        border: 1px solid #ffffff
-        z-index: 99999
-        display: none
-        border-radius: 6px
-      [data-title]
-        position: relative
   .Plan-action
     @include flex-end-center()
     flex: 1
