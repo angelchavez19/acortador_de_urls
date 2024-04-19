@@ -17,5 +17,5 @@ export const formES = {
     email: "Correo",
     password: "Contraseña",
   },
-  placeholderURLInput: "Enter your URL",
+  placeholderURLInput: "Ingresa tu URL",
 };

@@ -14,6 +14,9 @@ export const toastEN = {
   successPay: "Successful payment",
   errorPay: "You are up to date with your payments",
   errorRequest: "Oops! There was an error. Please try again later.",
+  errorURLExists: "The short URL is already registered",
+  successURLRegister: "The URL was registered successfully",
+  emptyShortURL: "The short URL is empty",
 };
 
 export const toastES = {
@@ -32,4 +35,7 @@ export const toastES = {
   successPay: "Pago exitoso",
   errorPay: "Usted está al día con sus pagos",
   errorRequest: "Opps! Hubo un error. Intentelo más tarde.",
+  errorURLExists: "La URL corta ya está registrada",
+  successURLRegister: "La URL se registro exitosamente",
+  emptyShortURL: "La URL corta esta vacia",
 };

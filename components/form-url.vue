@@ -19,7 +19,7 @@ defineProps({
       <IconScissors />
     </button>
   </form>
-  <div class="Hero-shortUrl" v-show="shortUrl">
+  <div class="Hero-shortUrl" v-show="shortUrl !== undefined">
     <slot />
   </div>
 </template>

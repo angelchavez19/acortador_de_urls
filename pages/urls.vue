@@ -1,61 +1,18 @@
 <script setup lang="ts">
 definePageMeta({ layout: "protected" });
-import { ref, type Ref } from "vue";
-import { useI18n } from "vue-i18n";
-import { toast } from "vue-sonner";
-import { string } from "yup";
-import { useAuth } from "~/composables/auth";
-import { SERVER } from "~/config/app.config";
-import type { UrlSchema } from "~/interfaces/schema";
-import type { StateUser } from "~/types/user";
+import { useUrlsPage } from "~/composables/pages/urls";
 
-let { t } = useI18n();
-const { requestToAPIProtected } = useAuth();
-
-let state: Ref<StateUser | null> = ref(null);
-let urls: Ref<UrlSchema[] | null> = ref(null);
-
-let url: Ref<string> = ref("");
-let shortUrl: Ref<string | undefined> = ref(undefined);
-let isSaved: Ref<boolean> = ref(false);
-
-const handleSubmit = async () => {
-  if (!url.value && !url.value.endsWith(SERVER)) {
-    toast.error(t("toast.errorField", { field: "url" }));
-    url.value = "";
-    return;
-  }
-
-  try {
-    await string().url().validate(url.value);
-  } catch {
-    toast.error(t("toast.errorField", { field: "url" }));
-    url.value = "";
-    return;
-  }
-
-  const response = await requestToAPIProtected(
-    "api/premium/generate_url",
-    "GET"
-  );
-
-  if (!response) return;
-  shortUrl.value = response.shortUrl;
-  isSaved.value = true;
-};
-
-const handleSave = async () => {
-  url.value = "";
-  isSaved.value = false;
-};
-
-onMounted(async () => {
-  const response = await requestToAPIProtected("/api/premium/url", "GET");
-  if (response.urls && response.state) {
-    urls.value = response.urls as UrlSchema[];
-    state.value = response.state;
-  }
-});
+let {
+  isSaved,
+  state,
+  url,
+  urls,
+  textToCopy,
+  shortUrl,
+  handleCopy,
+  handleSubmit,
+  handleSave,
+} = useUrlsPage();
 </script>
 
 <template>
@@ -96,10 +53,14 @@ onMounted(async () => {
       >
         <IconSave />
       </button>
-      <Copy v-show="!isSaved && shortUrl" :text="`${SERVER}p/${shortUrl}`" />
+      <Copy
+        v-show="!isSaved && shortUrl"
+        :text="textToCopy"
+        :handle-click="handleCopy"
+      />
     </FormUrl>
   </section>
-  <!-- <section class="Section Urls" v-if="urls">
+  <section class="Section Urls" v-if="urls">
     <table class="Urls-table">
       <thead class="Urls-tableHead">
         <tr>
@@ -119,7 +80,7 @@ onMounted(async () => {
         </tr>
       </tbody>
     </table>
-  </section> -->
+  </section>
 </template>
 
 <style scope lang="sass">

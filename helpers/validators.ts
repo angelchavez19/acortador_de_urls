@@ -19,6 +19,9 @@ export const isPassword = (value: string) =>
 export const max = (value: string, maxLength: number) =>
   required(value) && value.length <= maxLength;
 
+export const validShortUrl = (value: string) =>
+  required(value) && /^[a-zA-Z0-9]+$/.test(value);
+
 export const useValidators = () => {
   let { locale } = useI18n();
   let lang = locale.value;
@@ -52,5 +55,16 @@ export const useValidators = () => {
     };
   };
 
-  return { isRequired, validateEmail, validateMax, validatePassword };
+  const validateShortUrl = (value: string): true | string => {
+    if (!validShortUrl(value)) return getTranslate(lang, "invalidShortURL");
+    return true;
+  };
+
+  return {
+    isRequired,
+    validateEmail,
+    validateMax,
+    validateShortUrl,
+    validatePassword,
+  };
 };

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps({ text: String });
+const props = defineProps({ text: String, handleClick: Function });
 import { useI18n } from "vue-i18n";
 import { toast } from "vue-sonner";
 
@@ -11,6 +11,7 @@ const copyOnClipboard = async () => {
   try {
     await navigator.clipboard.writeText(props.text);
     toast.success(t("toast.copy"));
+    if (props.handleClick) props.handleClick();
   } catch {
     toast.error(t("toast.errorCopy", { value: props.text }));
   }

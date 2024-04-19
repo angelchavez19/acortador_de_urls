@@ -6,7 +6,8 @@ type messageValue =
   | "number"
   | "symbol"
   | "length12"
-  | "maxlength";
+  | "maxlength"
+  | "invalidShortURL";
 
 const messages = {
   en: {
@@ -19,6 +20,7 @@ const messages = {
     length12: "This field must have at least 12 characters",
     maxlength: (max: number) =>
       `This field must be less than ${max} characters`,
+    invalidShortURL: "The short URL is invalid",
   },
   es: {
     required: "Este campo es requerido",
@@ -30,6 +32,7 @@ const messages = {
     length12: "Este campo debe tener como mínimo 12 caracteres",
     maxlength: (max: number): string =>
       `Este campo debe contener menos de ${max} caracteres`,
+    invalidShortURL: "La URL corta es invalida",
   },
 };
 

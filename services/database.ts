@@ -160,3 +160,16 @@ export const payPremium = async (id: number) => {
     return false;
   }
 };
+
+export const insertUrlPremium = async (
+  id: number,
+  url: string,
+  short_url: string
+) => {
+  const db = await opendb();
+  await db.run(
+    `INSERT INTO url_premium (user_id, url, short_url, visits) VALUES (?, ?, ?, ?);`,
+    [id, url, short_url, 0]
+  );
+  await db.close();
+};
