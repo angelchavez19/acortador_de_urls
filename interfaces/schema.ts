@@ -31,3 +31,10 @@ export interface IndexContentPlans {
   en: ContentSchema[];
   es: ContentSchema[];
 }
+
+export interface UrlSchema {
+  id: number;
+  url: string;
+  short_url: string;
+  visits: number;
+}

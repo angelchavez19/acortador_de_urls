@@ -1,31 +1,21 @@
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
+import { useAuth } from "~/composables/auth";
+import { Toaster } from "vue-sonner";
+
+const { requestToAPIProtected } = useAuth();
 
 let auth: Ref<null | boolean> = ref(null);
-const { push } = useRouter();
 
 onMounted(async () => {
-  const token = window.localStorage.getItem("token");
-
-  if (!token) {
-    push("/login");
-    auth.value = false;
-    return;
-  }
-
-  const response = await $fetch("/api/auth", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-
-  if (!response.auth) push("/login");
+  const response = await requestToAPIProtected("/api/auth");
   auth.value = response.auth;
 });
 </script>
 
 <template>
   <main class="Main" v-if="auth === null">
-    <section class="Confirmed">
+    <section class="Message">
       <Loader />
     </section>
   </main>
@@ -36,15 +26,18 @@ onMounted(async () => {
     to="/urls"
     :aria-label="$t('protected.urlsPageArial')"
   >
-    <NuxtLink
+    <!-- <NuxtLink
       to="/settings"
       class="Setting"
       :aria-label="$t('protected.settingsPageArial')"
     >
       <IconSetting />
-    </NuxtLink>
+    </NuxtLink> -->
   </BaseHeader>
-  <main v-if="auth"><slot /></main>
+  <main v-if="auth" class="Main">
+    <slot />
+    <Toaster class="Toaster" theme="dark" />
+  </main>
 </template>
 
 <style scope lang="sass">

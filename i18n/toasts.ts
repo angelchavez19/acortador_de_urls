@@ -10,6 +10,9 @@ export const toastEN = {
   errorCopy: "Could not copy to clipboard: {value}",
   ariaCopy: "Copy",
   errorUrl507: "Your URL could not be saved due to lack of storage",
+  errorAuth: "Your session has expired",
+  successPay: "Successful payment",
+  errorPay: "You are up to date with your payments",
 };
 
 export const toastES = {
@@ -24,4 +27,7 @@ export const toastES = {
   errorCopy: "No se pudo en el portapapeles: {value}",
   ariaCopy: "Copiar",
   errorUrl507: "No se pudo guardar su url por falta de almacenamiento",
+  errorAuth: "Tu sesión ha expirado",
+  successPay: "Pago exitoso",
+  errorPay: "Usted está al día con sus pagos",
 };

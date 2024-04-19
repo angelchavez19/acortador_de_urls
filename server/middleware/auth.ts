@@ -5,6 +5,7 @@ export default defineEventHandler((event) => {
 
   if (!token) {
     event.context.auth = { auth: false };
+    setResponseStatus(event, 401);
     return;
   }
 
@@ -23,8 +24,9 @@ export default defineEventHandler((event) => {
     decodeToken.exp < Math.floor(Date.now() / 1000)
   ) {
     event.context.auth = { auth: false };
+    setResponseStatus(event, 401);
     return;
   }
 
-  event.context.auth = { auth: true };
+  event.context.auth = { auth: true, id: decodeToken.id };
 });

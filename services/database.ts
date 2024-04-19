@@ -68,6 +68,30 @@ export const verifyUser = async (email: string, password: string) => {
   }
 };
 
+export const getUserState = async (id: number) => {
+  const db = await opendb();
+  try {
+    const { last_payment } = await db.get(
+      `SELECT last_payment FROM user WHERE id=?`,
+      [id]
+    );
+    await db.close();
+
+    if (!last_payment) return "new-user";
+
+    let date = new Date(last_payment);
+    date.setMonth(date.getMonth() + 1);
+    date.setDate(date.getDate() + 1);
+
+    let today = new Date();
+    if (today.getTime() > date.getTime()) return "not-paid";
+    return "paid";
+  } catch {
+    await db.close();
+    return false;
+  }
+};
+
 export const insertUrl = async (url: string, short_url: string) => {
   const db = await opendb();
   await db.run(
@@ -88,6 +112,48 @@ export const visitUrl = async (short_url: string) => {
     else await db.run(`UPDATE url SET visits=visits+1 WHERE id=?;`, [res.id]);
     await db.close();
     return res.url;
+  } catch {
+    await db.close();
+    return false;
+  }
+};
+
+export const getUrlsPremium = async (id: number, fields: string) => {
+  const db = await opendb();
+  const urls = await db.all(
+    `SELECT ${fields} FROM url_premium WHERE user_id=?`,
+    [id]
+  );
+  await db.close();
+  if (!urls) return [];
+  return urls;
+};
+
+export const payPremium = async (id: number) => {
+  const db = await opendb();
+  try {
+    const { last_payment } = await db.get(
+      `SELECT last_payment FROM user WHERE id=?;`,
+      [id]
+    );
+
+    let date = new Date(last_payment);
+    date.setMonth(date.getMonth() + 1);
+    date.setDate(date.getDate() + 1);
+
+    let today = new Date();
+
+    if (today.getTime() > date.getTime()) {
+      await db.run(`UPDATE user SET last_payment=? WHERE id=?`, [
+        date.toISOString().split("T")[0],
+        id,
+      ]);
+      await db.close();
+      return true;
+    }
+
+    await db.close();
+    return false;
   } catch {
     await db.close();
     return false;
