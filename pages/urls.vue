@@ -11,6 +11,7 @@ let {
   textToCopy,
   shortUrl,
   handleCopy,
+  handleDelete,
   handleSubmit,
   handleSave,
 } = useUrlsPage();
@@ -86,7 +87,11 @@ let {
           </td>
           <td>{{ url.visits }}</td>
           <td>
-            <button type="button" :aria-label="$t('urls.table.delete')">
+            <button
+              type="button"
+              @click="() => handleDelete(url.id)"
+              :aria-label="$t('urls.table.delete')"
+            >
               <IconDelete />
             </button>
           </td>

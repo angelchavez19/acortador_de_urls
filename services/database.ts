@@ -191,3 +191,9 @@ export const visitUrlPremium = async (short_url: string) => {
     return false;
   }
 };
+
+export const deleteURLPremium = async (id: number) => {
+  const db = await opendb();
+  await db.run(`DELETE FROM url_premium WHERE id=?;`, [id]);
+  await db.close();
+};

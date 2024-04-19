@@ -81,6 +81,22 @@ export const useUrlsPage = () => {
     textToCopy.value = `${SERVER}p/${shortUrl.value}`;
   };
 
+  const handleDelete = async (id: number) => {
+    const response = await requestToAPIProtected(
+      "api/premium/delete_url",
+      "DELETE",
+      toJSON({ id })
+    );
+
+    if (!response.deleted) {
+      toast.error(t("toast.errorDeleteURL"));
+      return;
+    }
+
+    toast.success(t("toast.successDeleteURL"));
+    urls.value = response.urls;
+  };
+
   const handleCopy = () => {
     shortUrl.value = undefined;
   };
@@ -101,6 +117,7 @@ export const useUrlsPage = () => {
     textToCopy,
     shortUrl,
     handleCopy,
+    handleDelete,
     handleSubmit,
     handleSave,
   };

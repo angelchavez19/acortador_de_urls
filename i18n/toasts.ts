@@ -17,6 +17,8 @@ export const toastEN = {
   errorURLExists: "The short URL is already registered",
   successURLRegister: "The URL was registered successfully",
   emptyShortURL: "The short URL is empty",
+  errorDeleteURL: "An error occurred. Please refresh the page.",
+  successDeleteURL: "The URL was successfully deleted.",
 };
 
 export const toastES = {
@@ -38,4 +40,6 @@ export const toastES = {
   errorURLExists: "La URL corta ya está registrada",
   successURLRegister: "La URL se registro exitosamente",
   emptyShortURL: "La URL corta esta vacia",
+  errorDeleteURL: "Ocurrio un error. Por favor, actualiza la página.",
+  successDeleteURL: "Se eliminó la URL con éxito.",
 };
