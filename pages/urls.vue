@@ -1,17 +1,56 @@
 <script setup lang="ts">
 definePageMeta({ layout: "protected" });
-import { type StateUser } from "~/types/user";
 import { ref, type Ref } from "vue";
+import { useI18n } from "vue-i18n";
+import { toast } from "vue-sonner";
+import { string } from "yup";
 import { useAuth } from "~/composables/auth";
+import { SERVER } from "~/config/app.config";
 import type { UrlSchema } from "~/interfaces/schema";
+import type { StateUser } from "~/types/user";
 
+let { t } = useI18n();
 const { requestToAPIProtected } = useAuth();
 
 let state: Ref<StateUser | null> = ref(null);
 let urls: Ref<UrlSchema[] | null> = ref(null);
 
+let url: Ref<string> = ref("");
+let shortUrl: Ref<string | undefined> = ref(undefined);
+let isSaved: Ref<boolean> = ref(false);
+
+const handleSubmit = async () => {
+  if (!url.value && !url.value.endsWith(SERVER)) {
+    toast.error(t("toast.errorField", { field: "url" }));
+    url.value = "";
+    return;
+  }
+
+  try {
+    await string().url().validate(url.value);
+  } catch {
+    toast.error(t("toast.errorField", { field: "url" }));
+    url.value = "";
+    return;
+  }
+
+  const response = await requestToAPIProtected(
+    "api/premium/generate_url",
+    "GET"
+  );
+
+  if (!response) return;
+  shortUrl.value = response.shortUrl;
+  isSaved.value = true;
+};
+
+const handleSave = async () => {
+  url.value = "";
+  isSaved.value = false;
+};
+
 onMounted(async () => {
-  const response = await requestToAPIProtected("/api/url/premium", "GET");
+  const response = await requestToAPIProtected("/api/premium/url", "GET");
   if (response.urls && response.state) {
     urls.value = response.urls as UrlSchema[];
     state.value = response.state;
@@ -43,8 +82,24 @@ onMounted(async () => {
       }}</NuxtLink>
     </CardMessage>
   </section>
-  <section class="Section Pay" v-else-if="state === 'paid'"></section>
-  <section class="Section Urls" v-if="urls">
+  <section class="Section Pay" v-else-if="state === 'paid'">
+    <FormUrl v-model="url" :short-url="shortUrl" :handle-submit="handleSubmit">
+      <div class="p">
+        <p>/p/</p>
+        <input type="text" v-model="shortUrl" />
+      </div>
+      <button
+        type="button"
+        @click="handleSave"
+        v-show="isSaved"
+        :aria-label="$t('urls.ariaSaveButton')"
+      >
+        <IconSave />
+      </button>
+      <Copy v-show="!isSaved && shortUrl" :text="`${SERVER}p/${shortUrl}`" />
+    </FormUrl>
+  </section>
+  <!-- <section class="Section Urls" v-if="urls">
     <table class="Urls-table">
       <thead class="Urls-tableHead">
         <tr>
@@ -64,7 +119,11 @@ onMounted(async () => {
         </tr>
       </tbody>
     </table>
-  </section>
+  </section> -->
 </template>
 
-<style scope lang="sass"></style>
+<style scope lang="sass">
+.Pay
+  p span
+    border: 2px solid $accent-1
+</style>

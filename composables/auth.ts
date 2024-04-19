@@ -1,5 +1,5 @@
 import { toast } from "vue-sonner";
-import { useI18n } from "#imports";
+import { useI18n } from "vue-i18n";
 import type { Method } from "~/types/method";
 
 export const useAuth = () => {
@@ -19,19 +19,24 @@ export const useAuth = () => {
       return false;
     }
 
-    const response: any = await $fetch(url, {
-      method,
-      headers: { Authorization: `Bearer ${token}` },
-      body,
-    });
+    try {
+      const response: any = await $fetch(url, {
+        method,
+        headers: { Authorization: `Bearer ${token}` },
+        body,
+      });
 
-    if (!response.auth) {
-      toast.error(t("toast.errorAuth"));
-      push("/login");
+      if (!response.auth) {
+        toast.error(t("toast.errorAuth"));
+        push("/login");
+        return false;
+      }
+
+      return response;
+    } catch {
+      toast.error("Opps! Hubo un error. Intentelo más tarde.");
       return false;
     }
-
-    return response;
   };
 
   return { requestToAPIProtected };

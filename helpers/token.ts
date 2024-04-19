@@ -6,7 +6,7 @@ const sliceUuid = (start: number, end: number) =>
 
 export const getToken = () => sliceUuid(0, 15);
 
-export const getTokenUrl = () => sliceUuid(0, 8);
+export const getTokenUrl = (max: number = 8) => sliceUuid(0, max);
 
 export const getJWT = (payload: any) =>
   jwt.sign(

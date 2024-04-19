@@ -3,18 +3,12 @@ import type { IndexContentPlans } from "~/interfaces/schema";
 export const indexEN = {
   headerAria: "Go to the home page",
   headerLogin: "Log In",
-  form: {
-    placeholder: "Enter your URL",
-  },
   titleSection: "Find the Best Plan for You",
 };
 
 export const indexES = {
   headerAria: "Ir a la página principal",
   headerLogin: "Iniciar Sesión",
-  form: {
-    placeholder: "Ingrese su URL",
-  },
   titleSection: "Busca el Mejor Plan Para Ti",
 };
 

@@ -8,21 +8,10 @@ let { handleSubmit, url, shortUrl, content } = useIndexPage();
 <template>
   <section class="Hero" id="occasional">
     <IconLogo />
-    <form class="Hero-form" novalidate @submit.prevent="handleSubmit">
-      <input
-        type="text"
-        name="url"
-        v-model="url"
-        :placeholder="$t('index.form.placeholder')"
-      />
-      <button type="submit" aria-label="Submit">
-        <IconScissors />
-      </button>
-    </form>
-    <div class="Hero-shortUrl" v-show="shortUrl">
-      <p>{{ shortUrl }}</p>
+    <FormUrl v-model="url" :short-url="shortUrl" :handle-submit="handleSubmit">
+      <p class="p">{{ shortUrl }}</p>
       <Copy :text="shortUrl" />
-    </div>
+    </FormUrl>
   </section>
   <section class="Plans">
     <h2>{{ $t("index.titleSection") }}</h2>
@@ -50,34 +39,6 @@ let { handleSubmit, url, shortUrl, content } = useIndexPage();
   svg
     width: 180px
     height: 180px
-  .Hero-form,
-  .Hero-shortUrl
-    @include flex-center-evenly()
-    gap: 1rem
-    width: 100%
-    max-width: 600px
-    input,
-    p
-      @include flex-center-()
-      border: none
-      background-color: $accent-4
-      flex: 1
-      font-size: 1.1rem
-      padding: 0 .7rem
-      border-radius: 50px
-      width: calc( 100% - 1.4rem - 40px )
-      height: 50px
-    button
-      @include flex-center-center()
-      display: block
-      border: none
-      background-color: $accent-4
-      width: 50px
-      height: 50px
-      border-radius: 50%
-    button svg
-      width: 25px
-      height: 25px
 .Plans
   @include flex-center-()
   h2

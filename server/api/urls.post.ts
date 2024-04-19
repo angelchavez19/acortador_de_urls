@@ -1,23 +1,24 @@
 import { string } from "yup";
+import { SERVER } from "~/config/app.config";
 import { getTokenUrl } from "~/helpers/token";
 import { isUnique, insertUrl } from "~/services/database";
 
 const getToken = () => {
   let shortUrl = getTokenUrl();
   let count = 0;
-  while (!isUnique("short_url", "shortUrl", "url")) {
+  while (!isUnique("short_url", shortUrl, "url")) {
     shortUrl = getTokenUrl();
     count++;
-    if (count > 10) return "";
+    if (count > 5) return "";
   }
   return shortUrl;
 };
 
 export default defineEventHandler(async (event) => {
-  const response = await readBody(event);
+  const body = await readBody(event);
 
   try {
-    await string().url().validate(response.url);
+    await string().url().validate(body.url);
   } catch {
     setResponseStatus(event, 400);
     return {};
@@ -30,7 +31,7 @@ export default defineEventHandler(async (event) => {
     return;
   }
 
-  await insertUrl(response.url, shortUrl);
+  await insertUrl(body.url, shortUrl);
 
-  return { shortUrl: `${process.env.SERVER}u/${shortUrl}` };
+  return { shortUrl: `${SERVER}u/${shortUrl}` };
 });

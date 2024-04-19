@@ -6,6 +6,7 @@ export const formEN = {
     email: "Email",
     password: "Password",
   },
+  placeholderURLInput: "Enter your URL",
 };
 
 export const formES = {
@@ -16,4 +17,5 @@ export const formES = {
     email: "Correo",
     password: "Contraseña",
   },
+  placeholderURLInput: "Enter your URL",
 };

@@ -94,10 +94,11 @@ export const getUserState = async (id: number) => {
 
 export const insertUrl = async (url: string, short_url: string) => {
   const db = await opendb();
-  await db.run(
-    `INSERT INTO url (url, short_url, visits) VALUES (?, ?, ?, ?);`,
-    [url, short_url, 0]
-  );
+  await db.run(`INSERT INTO url (url, short_url, visits) VALUES (?, ?, ?);`, [
+    url,
+    short_url,
+    0,
+  ]);
   await db.close();
 };
 
@@ -145,7 +146,7 @@ export const payPremium = async (id: number) => {
 
     if (today.getTime() > date.getTime()) {
       await db.run(`UPDATE user SET last_payment=? WHERE id=?`, [
-        date.toISOString().split("T")[0],
+        today.toISOString().split("T")[0],
         id,
       ]);
       await db.close();

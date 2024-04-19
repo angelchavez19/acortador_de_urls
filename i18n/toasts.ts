@@ -13,6 +13,7 @@ export const toastEN = {
   errorAuth: "Your session has expired",
   successPay: "Successful payment",
   errorPay: "You are up to date with your payments",
+  errorRequest: "Oops! There was an error. Please try again later.",
 };
 
 export const toastES = {
@@ -30,4 +31,5 @@ export const toastES = {
   errorAuth: "Tu sesión ha expirado",
   successPay: "Pago exitoso",
   errorPay: "Usted está al día con sus pagos",
+  errorRequest: "Opps! Hubo un error. Intentelo más tarde.",
 };

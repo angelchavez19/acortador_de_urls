@@ -17,6 +17,8 @@ export const urlsEN = {
     content:
       "Your account is currently suspended due to a pending payment. Please make the payment as soon as possible to restore access to your account. If you have already made the payment, please wait a few minutes and refresh the page. If you need assistance, feel free to contact us.",
   },
+  ariaSaveButton: "Save URL",
+  ariaCopyButton: "Copy to clipboard",
 };
 
 export const urlsES = {
@@ -38,4 +40,6 @@ export const urlsES = {
     content:
       "Tu cuenta se encuentra actualmente en estado de suspensión debido a un pago pendiente. Por favor, realiza el pago lo antes posible para restaurar el acceso a tu cuenta. Si ya has realizado el pago, espera unos minutos y actualiza la página. Si necesitas ayuda, no dudes en contactarnos.",
   },
+  ariaSaveButton: "Guardar url",
+  ariaCopyButton: "Copiar en el portapapeles",
 };

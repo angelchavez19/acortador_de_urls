@@ -2,10 +2,12 @@ import { payPremium } from "~/services/database";
 
 export default defineEventHandler(async (event) => {
   const auth = event.context.auth;
-  if (!auth.auth) return auth;
+  if (!auth.auth) {
+    setResponseStatus(event, 401);
+    return auth;
+  }
 
   const res = await payPremium(auth.id);
-  console.log(res);
 
   if (!res) setResponseStatus(event, 409);
 

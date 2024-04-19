@@ -3,6 +3,7 @@ import { sendMail } from "~/helpers/mail";
 import { required, isEmail, isPassword } from "~/helpers/validators";
 import { getToken } from "~/helpers/token";
 import { isUnique, insertUser } from "~/services/database";
+import { SERVER } from "~/config/app.config";
 
 export default defineEventHandler(async (event) => {
   const user: UserCreate = await readBody(event);
@@ -24,7 +25,7 @@ export default defineEventHandler(async (event) => {
   let token = getToken();
   while (!(await isUnique("token", token))) token = getToken();
 
-  const href = `${process.env.SERVER}confirm/${token}`;
+  const href = `${SERVER}confirm/${token}`;
   insertUser(user.name, user.email, user.password, token);
   await sendMail(
     user.email,
