@@ -173,3 +173,21 @@ export const insertUrlPremium = async (
   );
   await db.close();
 };
+
+export const visitUrlPremium = async (short_url: string) => {
+  const db = await opendb();
+  try {
+    const res = await db.get(
+      `SELECT id, url FROM url_premium WHERE short_url=?;`,
+      [short_url]
+    );
+    await db.run(`UPDATE url_premium SET visits=visits+1 WHERE id=?;`, [
+      res.id,
+    ]);
+    await db.close();
+    return res.url;
+  } catch {
+    await db.close();
+    return false;
+  }
+};

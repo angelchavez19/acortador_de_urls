@@ -1,4 +1,4 @@
-import { visitUrl } from "~/services/database";
+import { visitUrlPremium } from "~/services/database";
 
 export default defineEventHandler(async (event) => {
   let url = getRouterParam(event, "url");
@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     return;
   }
 
-  const res = await visitUrl(url);
+  const res = await visitUrlPremium(url);
 
   if (!res) {
     sendRedirect(event, "/e?status=404", 301);
