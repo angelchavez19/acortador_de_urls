@@ -44,8 +44,9 @@ export const insertUser = async (
 
 export const confirmUser = async (token: string) => {
   const db = await opendb();
+
   const { changes } = await db.run(
-    `UPDATE user SET confirm=1, token='' WHERE token=?`,
+    `UPDATE user SET confirm=1, token=NULL WHERE token=?`,
     [token]
   );
   await db.close();

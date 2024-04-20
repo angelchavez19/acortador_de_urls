@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
   insertUser(user.name, user.email, user.password, token);
   await sendMail(
     user.email,
-    "Verify email | Confirmar Contraseña",
+    "Verify Email | Confirmar Email",
     `<p>Confirm your <a href="${href}">email</a></p>
     
     ---

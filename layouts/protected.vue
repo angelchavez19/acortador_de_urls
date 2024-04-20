@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
-import { useAuth } from "~/composables/auth";
 import { Toaster } from "vue-sonner";
+import { useAuth } from "~/composables/auth";
 
 const { requestToAPIProtected } = useAuth();
 
@@ -21,19 +21,7 @@ onMounted(async () => {
   </main>
   <main v-else-if="!auth"></main>
 
-  <BaseHeader
-    v-if="auth"
-    to="/urls"
-    :aria-label="$t('protected.urlsPageArial')"
-  >
-    <!-- <NuxtLink
-      to="/settings"
-      class="Setting"
-      :aria-label="$t('protected.settingsPageArial')"
-    >
-      <IconSetting />
-    </NuxtLink> -->
-  </BaseHeader>
+  <BaseHeader v-if="auth" to="/" :aria-label="$t('protected.urlsPageArial')" />
   <main v-if="auth" class="Main">
     <slot />
     <Toaster class="Toaster" theme="dark" />

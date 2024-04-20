@@ -62,7 +62,7 @@ let {
       />
     </FormUrl>
   </section>
-  <section class="Urls" v-if="urls">
+  <section class="Urls" v-if="state === 'paid' && urls">
     <table>
       <thead>
         <tr>
