@@ -1,5 +1,6 @@
 import { confirmedEN, confirmedES } from "./i18n/confirmed";
 import { formEN, formES } from "~/i18n/forms";
+import { headsEN, headsES } from "./i18n/heads";
 import { indexEN, indexES } from "./i18n";
 import { loginEN, loginES } from "./i18n/login";
 import { payEN, payES } from "./i18n/pay";
@@ -14,6 +15,7 @@ export default defineI18nConfig(() => ({
     en: {
       confirmed: confirmedEN,
       forms: formEN,
+      head: headsEN,
       index: indexEN,
       login: loginEN,
       pay: payEN,
@@ -28,6 +30,7 @@ export default defineI18nConfig(() => ({
     es: {
       confirmed: confirmedES,
       forms: formES,
+      head: headsES,
       index: indexES,
       login: loginES,
       pay: payES,
