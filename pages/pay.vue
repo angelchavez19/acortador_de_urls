@@ -10,7 +10,10 @@ const { requestToAPIProtected } = useAuth();
 const handleSubmit = () => {
   toast.promise(requestToAPIProtected("api/pay"), {
     loading: "Loading...",
-    success: (data: any) => t("toast.successPay"),
+    success: (data: any) => {
+      navigateTo("/urls");
+      return t("toast.successPay");
+    },
     error: (data: any) => {
       if (data.status === 409) return t("toast.errorPay");
       return "error";

@@ -9,7 +9,6 @@ import {
 
 export const useLoginPage = () => {
   const { t } = useI18n();
-  const { push } = useRouter();
   const { inputRequiredEmail, inputRequiredPassword } = useFields();
   const { validEmail, validPassword } = useValid();
   const { toastPromise } = useToastPromise();
@@ -43,7 +42,7 @@ export const useLoginPage = () => {
       { email, password },
       (data: any) => {
         localStorage.setItem("token", data.token);
-        push("/urls");
+        navigateTo("/urls");
         return t("toast.successLogin");
       },
       (data: any) => {

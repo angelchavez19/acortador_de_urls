@@ -26,7 +26,6 @@ export default defineEventHandler(async (event) => {
   while (!(await isUnique("token", token))) token = getToken();
 
   const href = `${SERVER}confirm/${token}`;
-  insertUser(user.name, user.email, user.password, token);
   await sendMail(
     user.email,
     "Verify Email | Confirmar Email",
@@ -37,5 +36,6 @@ export default defineEventHandler(async (event) => {
     <p>Confirma tu <a href="${href}">correo</a></p>
     `
   );
+  await insertUser(user.name, user.email, user.password, token);
   setResponseStatus(event, 200);
 });

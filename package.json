@@ -7,8 +7,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
-    "create_bd": "node --loader ts-node/esm scripts.ts"
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "@vee-validate/rules": "^4.12.6",
@@ -18,7 +17,6 @@
     "nuxt": "^3.11.2",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
-    "ts-node": "^10.9.2",
     "uuid": "^9.0.1",
     "vee-validate": "^4.12.6",
     "vue": "^3.4.21",

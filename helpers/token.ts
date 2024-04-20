@@ -18,9 +18,7 @@ export const getJWT = (payload: any) =>
 
 export const decodeJWT = <T>(token: string) => {
   try {
-    return jwt.verify(token, SECRET_KEY, {
-      algorithm: "HS256",
-    }) as T;
+    return jwt.verify(token, SECRET_KEY, { algorithms: ["HS256"] }) as T;
   } catch {
     return {} as T;
   }

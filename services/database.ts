@@ -1,5 +1,5 @@
 import sqlite3 from "sqlite3";
-import { open } from "sqlite";
+import { open, Database } from "sqlite";
 import { encrypt, compareCrypt } from "~/helpers/bcrypt";
 
 const opendb = async () => {
@@ -7,6 +7,30 @@ const opendb = async () => {
     filename: "db.db",
     driver: sqlite3.Database,
   });
+};
+
+export const createDB = async (
+  db: Database<sqlite3.Database, sqlite3.Statement>
+) => {
+  await db.run(`CREATE TABLE IF NOT EXISTS user (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+name VARCHAR(50) NOT NULL,
+email VARCHAR(256) UNIQUE NOT NULL,
+password CHARACTER(60) NOT NULL,
+confirm BOOLEAN NOT NULL,
+token CHARACTER(15) UNIQUE,
+last_payment DATE);`);
+  await db.run(`CREATE TABLE IF NOT EXISTS url (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+url TEXT NOT NULL,
+short_url TEXT NOT NULL,
+visits INTEGER NOT NULL);`);
+  await db.run(`CREATE TABLE IF NOT EXISTS url_premium (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+user_id INTEGER FOREING KEY,
+url TEXT NOT NULL,
+short_url TEXT NOT NULL,
+visits INTEGER NOT NULL);`);
 };
 
 export const isUnique = async (
@@ -34,6 +58,7 @@ export const insertUser = async (
   token: string
 ) => {
   const db = await opendb();
+  await createDB(db);
   const hashPassword = await encrypt(password);
   await db.run(
     `INSERT INTO user (name, email, password, confirm, token) VALUES (?, ?, ?, ?, ?);`,
@@ -95,6 +120,7 @@ export const getUserState = async (id: number) => {
 
 export const insertUrl = async (url: string, short_url: string) => {
   const db = await opendb();
+  await createDB(db);
   await db.run(`INSERT INTO url (url, short_url, visits) VALUES (?, ?, ?);`, [
     url,
     short_url,
