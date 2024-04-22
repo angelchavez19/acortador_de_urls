@@ -21,7 +21,15 @@ onMounted(async () => {
   </main>
   <main v-else-if="!auth"></main>
 
-  <BaseHeader v-if="auth" to="/" :aria-label="$t('protected.urlsPageArial')" />
+  <BaseHeader
+    v-if="auth"
+    to="/urls"
+    :aria-label="$t('protected.urlsPageArial')"
+  >
+    <NuxtLink to="/qr" class="PageQR" :aria-label="$t('qr.header.ariaLink')">
+      <IconQr />
+    </NuxtLink>
+  </BaseHeader>
   <main v-if="auth" class="Main">
     <slot />
     <Toaster class="Toaster" theme="dark" />
@@ -29,11 +37,11 @@ onMounted(async () => {
 </template>
 
 <style scope lang="sass">
-.Setting
+.PageQR
   @include flex-center-center()
   background-color: $accent-1
-  width: 40px
-  height: 40px
+  width: 45px
+  height: 45px
   border-radius: 50%
   svg
     width: 25px

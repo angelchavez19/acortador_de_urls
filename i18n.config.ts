@@ -4,6 +4,7 @@ import { headsEN, headsES } from "./i18n/heads";
 import { indexEN, indexES } from "./i18n";
 import { loginEN, loginES } from "./i18n/login";
 import { payEN, payES } from "./i18n/pay";
+import { qrEN, qrES } from "./i18n/qr";
 import { registerEN, registerES } from "~/i18n/register";
 import { toastEN, toastES } from "./i18n/toasts";
 import { urlsEN, urlsES } from "./i18n/urls";
@@ -19,6 +20,7 @@ export default defineI18nConfig(() => ({
       index: indexEN,
       login: loginEN,
       pay: payEN,
+      qr: qrEN,
       register: registerEN,
       toast: toastEN,
       protected: {
@@ -34,6 +36,7 @@ export default defineI18nConfig(() => ({
       index: indexES,
       login: loginES,
       pay: payES,
+      qr: qrES,
       register: registerES,
       toast: toastES,
       protected: {

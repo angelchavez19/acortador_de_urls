@@ -18,5 +18,6 @@ export default defineNuxtConfig({
   routeRules: {
     "/urls": { ssr: false },
     "/pay": { ssr: false },
+    "/qr": { ssr: false },
   },
 });

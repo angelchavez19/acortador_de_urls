@@ -19,14 +19,14 @@ defineProps({
       <IconScissors />
     </button>
   </form>
-  <div class="Hero-shortUrl" v-show="shortUrl !== undefined">
+  <div class="FormURL-shortUrl" v-show="shortUrl !== undefined">
     <slot />
   </div>
 </template>
 
 <style scope lang="sass">
 .FormURL,
-.Hero-shortUrl
+.FormURL-shortUrl
   @include flex-center-evenly()
   gap: 1rem
   width: 100%
@@ -53,12 +53,14 @@ defineProps({
     outline: 1px solid $color-1
   button
     @include flex-center-center()
-    display: block
     border: none
     background-color: $accent-4
     width: 50px
     height: 50px
     border-radius: 50%
+    cursor: pointer
+  button:active
+    transform: scale(.9)
   button svg
     width: 25px
     height: 25px
