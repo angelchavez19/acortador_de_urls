@@ -26,6 +26,7 @@ logs
 # DB
 db.db
 db.db-journal
+migrations/
 
 # TODO
 todo.md

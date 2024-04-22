@@ -4,7 +4,7 @@ import { isUnique } from "~/services/database";
 const getToken = () => {
   let shortUrl = getTokenUrl(6);
   let count = 0;
-  while (!isUnique("short_url", shortUrl, "url_premium")) {
+  while (!isUnique({ short_url: shortUrl }, "urlPremium")) {
     shortUrl = getTokenUrl(6);
     count++;
     if (count > 10) return "";

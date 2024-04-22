@@ -11,8 +11,7 @@ export default defineEventHandler(async (event) => {
   const userState = await getUserState(id);
   let urls: any[] = [];
 
-  if (userState !== "new-user")
-    urls = await getUrlsPremium(id, "id, url, short_url, visits");
+  if (userState !== "new-user") urls = await getUrlsPremium(id);
 
   return {
     auth: true,

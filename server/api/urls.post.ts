@@ -6,7 +6,7 @@ import { isUnique, insertUrl } from "~/services/database";
 const getToken = () => {
   let shortUrl = getTokenUrl();
   let count = 0;
-  while (!isUnique("short_url", shortUrl, "url")) {
+  while (!isUnique({ short_url: shortUrl }, "url")) {
     shortUrl = getTokenUrl();
     count++;
     if (count > 5) return "";

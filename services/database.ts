@@ -1,226 +1,212 @@
-import sqlite3 from "sqlite3";
-import { open, Database } from "sqlite";
 import { encrypt, compareCrypt } from "~/helpers/bcrypt";
+import { PrismaClient, Prisma } from "@prisma/client";
+import type { StateUser } from "~/types/user";
 
-const opendb = async () => {
-  return await open({
-    filename: "db.db",
-    driver: sqlite3.Database,
-  });
-};
+const prisma = new PrismaClient();
 
-export const createDB = async (
-  db: Database<sqlite3.Database, sqlite3.Statement>
-) => {
-  await db.run(`CREATE TABLE IF NOT EXISTS user (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-name VARCHAR(50) NOT NULL,
-email VARCHAR(256) UNIQUE NOT NULL,
-password CHARACTER(60) NOT NULL,
-confirm BOOLEAN NOT NULL,
-token CHARACTER(15) UNIQUE,
-last_payment DATE);`);
-  await db.run(`CREATE TABLE IF NOT EXISTS url (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-url TEXT NOT NULL,
-short_url TEXT NOT NULL,
-visits INTEGER NOT NULL);`);
-  await db.run(`CREATE TABLE IF NOT EXISTS url_premium (
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-user_id INTEGER FOREING KEY,
-url TEXT NOT NULL,
-short_url TEXT NOT NULL,
-visits INTEGER NOT NULL);`);
-};
+export async function isUnique(
+  where: Prisma.UserWhereUniqueInput,
+  table: "user"
+): Promise<boolean>;
+export async function isUnique(
+  where: Prisma.UrlWhereUniqueInput,
+  table: "url"
+): Promise<boolean>;
+export async function isUnique(
+  where: Prisma.UrlPremiumWhereUniqueInput,
+  table: "urlPremium"
+): Promise<boolean>;
+export async function isUnique(where: object, table: string): Promise<boolean> {
+  let res = null;
 
-export const isUnique = async (
-  field: string,
-  value: string,
-  table: string = "user"
-) => {
-  const db = await opendb();
-  try {
-    const res = await db.get(`SELECT id FROM ${table} WHERE ${field}=?;`, [
-      value,
-    ]);
-    await db.close();
-    return !Boolean(res);
-  } catch {
-    await db.close();
-    return true;
-  }
-};
+  if (table === "user")
+    res = await prisma.user.findUnique({ where, select: { id: true } });
+  else if (table === "url")
+    res = await prisma.url.findUnique({ where, select: { id: true } });
+  else if (table === "urlPremium")
+    res = await prisma.urlPremium.findUnique({ where, select: { id: true } });
+
+  return !Boolean(res);
+}
 
 export const insertUser = async (
   name: string,
   email: string,
   password: string,
   token: string
-) => {
-  const db = await opendb();
-  await createDB(db);
+): Promise<void> => {
   const hashPassword = await encrypt(password);
-  await db.run(
-    `INSERT INTO user (name, email, password, confirm, token) VALUES (?, ?, ?, ?, ?);`,
-    [name, email, hashPassword, 0, token]
-  );
-  await db.close();
+  await prisma.user.create({
+    data: {
+      name,
+      email,
+      password: hashPassword,
+      confirm: false,
+      token,
+    },
+  });
 };
 
-export const confirmUser = async (token: string) => {
-  const db = await opendb();
+export const confirmUser = async (token: string): Promise<boolean> => {
+  const user = await prisma.user.findUnique({
+    where: { token },
+    select: { confirm: true },
+  });
 
-  const { changes } = await db.run(
-    `UPDATE user SET confirm=1, token=NULL WHERE token=?`,
-    [token]
-  );
-  await db.close();
-  return Boolean(changes);
+  if (!user || user.confirm) return false;
+
+  const res = await prisma.user.update({
+    where: { token },
+    data: { confirm: true, token: null },
+  });
+  return Boolean(res);
 };
 
-export const verifyUser = async (email: string, password: string) => {
-  const db = await opendb();
-  try {
-    const user = await db.get(
-      `SELECT id, password, confirm FROM user WHERE email=?`,
-      [email]
-    );
-    await db.close();
-    if (!user || !user.confirm) return [undefined, false];
-    return [user.id, await compareCrypt(password, user.password)];
-  } catch {
-    await db.close();
-    return [undefined, false];
+export const verifyUser = async (
+  email: string,
+  password: string
+): Promise<(boolean | undefined)[] | (number | boolean)[]> => {
+  const user: { id: number; password: string } | null =
+    await prisma.user.findUnique({
+      where: { email },
+      select: { id: true, password: true },
+    });
+
+  if (!user) return [undefined, false];
+  return [user.id, await compareCrypt(password, user.password)];
+};
+
+export const getUserState = async (id: number): Promise<false | StateUser> => {
+  const user: { last_payment: Date | null } | null =
+    await prisma.user.findUnique({
+      where: { id },
+      select: { last_payment: true },
+    });
+  if (!user) return false;
+  if (!user.last_payment) return "new-user";
+
+  let today = new Date();
+  let date = user.last_payment;
+  date.setMonth(date.getMonth() + 1);
+  date.setDate(date.getDate() + 1);
+
+  if (today.getTime() > date.getTime()) return "not-paid";
+  return "paid";
+};
+
+export const insertUrl = async (
+  url: string,
+  short_url: string
+): Promise<void> => {
+  await prisma.url.create({ data: { url, short_url, visits: 0 } });
+};
+
+export const visitUrl = async (short_url: string): Promise<false | string> => {
+  const res: { id: number; url: string; visits: number } | null =
+    await prisma.url.findUnique({
+      where: { short_url },
+      select: { id: true, url: true, visits: true },
+    });
+  if (!res) return false;
+
+  if (res.visits > 30) await prisma.url.delete({ where: { id: res.id } });
+  else
+    await prisma.url.update({
+      where: { id: res.id },
+      data: { visits: res.visits + 1 },
+    });
+  return res.url;
+};
+
+export const getUrlsPremium = async (
+  id: number
+): Promise<
+  {
+    id: number;
+    url: string;
+    short_url: string;
+    visits: number;
+  }[]
+> => {
+  return await prisma.urlPremium.findMany({
+    where: { userId: id },
+    select: {
+      id: true,
+      url: true,
+      short_url: true,
+      visits: true,
+    },
+  });
+};
+
+export const payPremium = async (id: number): Promise<boolean> => {
+  const user: { last_payment: Date | null } | null =
+    await prisma.user.findUnique({
+      where: { id },
+      select: { last_payment: true },
+    });
+
+  if (!user) return false;
+
+  let today = new Date();
+
+  if (!user.last_payment) {
+    await prisma.user.update({
+      where: { id },
+      data: { last_payment: today },
+    });
+    return true;
   }
-};
 
-export const getUserState = async (id: number) => {
-  const db = await opendb();
-  try {
-    const { last_payment } = await db.get(
-      `SELECT last_payment FROM user WHERE id=?`,
-      [id]
-    );
-    await db.close();
+  let date = user.last_payment;
+  date.setMonth(date.getMonth() + 1);
+  date.setDate(date.getDate() + 1);
 
-    if (!last_payment) return "new-user";
-
-    let date = new Date(last_payment);
-    date.setMonth(date.getMonth() + 1);
-    date.setDate(date.getDate() + 1);
-
-    let today = new Date();
-    if (today.getTime() > date.getTime()) return "not-paid";
-    return "paid";
-  } catch {
-    await db.close();
-    return false;
+  if (today.getTime() > date.getTime()) {
+    console.log(2);
+    await prisma.user.update({
+      where: { id },
+      data: { last_payment: today },
+    });
+    return true;
   }
-};
-
-export const insertUrl = async (url: string, short_url: string) => {
-  const db = await opendb();
-  await createDB(db);
-  await db.run(`INSERT INTO url (url, short_url, visits) VALUES (?, ?, ?);`, [
-    url,
-    short_url,
-    0,
-  ]);
-  await db.close();
-};
-
-export const visitUrl = async (short_url: string) => {
-  const db = await opendb();
-  try {
-    const res = await db.get(
-      `SELECT id, url, visits FROM url WHERE short_url=?;`,
-      [short_url]
-    );
-    if (res.visits > 30) await db.run(`DELETE FROM url WHERE id=?;`, [res.id]);
-    else await db.run(`UPDATE url SET visits=visits+1 WHERE id=?;`, [res.id]);
-    await db.close();
-    return res.url;
-  } catch {
-    await db.close();
-    return false;
-  }
-};
-
-export const getUrlsPremium = async (id: number, fields: string) => {
-  const db = await opendb();
-  const urls = await db.all(
-    `SELECT ${fields} FROM url_premium WHERE user_id=?`,
-    [id]
-  );
-  await db.close();
-  if (!urls) return [];
-  return urls;
-};
-
-export const payPremium = async (id: number) => {
-  const db = await opendb();
-  try {
-    const { last_payment } = await db.get(
-      `SELECT last_payment FROM user WHERE id=?;`,
-      [id]
-    );
-
-    let date = new Date(last_payment);
-    date.setMonth(date.getMonth() + 1);
-    date.setDate(date.getDate() + 1);
-
-    let today = new Date();
-
-    if (today.getTime() > date.getTime()) {
-      await db.run(`UPDATE user SET last_payment=? WHERE id=?`, [
-        today.toISOString().split("T")[0],
-        id,
-      ]);
-      await db.close();
-      return true;
-    }
-
-    await db.close();
-    return false;
-  } catch {
-    await db.close();
-    return false;
-  }
+  return false;
 };
 
 export const insertUrlPremium = async (
   id: number,
   url: string,
   short_url: string
-) => {
-  const db = await opendb();
-  await db.run(
-    `INSERT INTO url_premium (user_id, url, short_url, visits) VALUES (?, ?, ?, ?);`,
-    [id, url, short_url, 0]
-  );
-  await db.close();
+): Promise<void> => {
+  await prisma.urlPremium.create({
+    data: {
+      userId: id,
+      url,
+      short_url,
+      visits: 0,
+    },
+  });
 };
 
-export const visitUrlPremium = async (short_url: string) => {
-  const db = await opendb();
-  try {
-    const res = await db.get(
-      `SELECT id, url FROM url_premium WHERE short_url=?;`,
-      [short_url]
-    );
-    await db.run(`UPDATE url_premium SET visits=visits+1 WHERE id=?;`, [
-      res.id,
-    ]);
-    await db.close();
-    return res.url;
-  } catch {
-    await db.close();
-    return false;
-  }
+export const visitUrlPremium = async (
+  short_url: string
+): Promise<false | string> => {
+  const url: { id: number; url: string; visits: number } | null =
+    await prisma.urlPremium.findUnique({
+      where: { short_url },
+      select: { id: true, url: true, visits: true },
+    });
+
+  if (!url) return false;
+
+  await prisma.urlPremium.update({
+    where: { id: url.id },
+    data: { visits: url.visits + 1 },
+  });
+
+  return url.url;
 };
 
-export const deleteURLPremium = async (id: number) => {
-  const db = await opendb();
-  await db.run(`DELETE FROM url_premium WHERE id=?;`, [id]);
-  await db.close();
+export const deleteURLPremium = async (id: number): Promise<void> => {
+  await prisma.urlPremium.delete({ where: { id } });
 };

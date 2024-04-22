@@ -16,11 +16,11 @@ export default defineEventHandler(async (event) => {
   const shortUrl = body.short_url;
 
   if (!url || !shortUrl) return { auth: auth.auth };
-  if (!(await isUnique("short_url", shortUrl, "url_premium")))
+  if (!(await isUnique({ short_url: shortUrl }, "urlPremium")))
     return { auth: auth.auth };
 
   await insertUrlPremium(auth.id, url, shortUrl);
-  const urls = await getUrlsPremium(auth.id, "id, url, short_url, visits");
+  const urls = await getUrlsPremium(auth.id);
 
   return { auth: auth.auth, urls };
 });

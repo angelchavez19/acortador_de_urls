@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     };
 
   await deleteURLPremium(body.id);
-  const urls = await getUrlsPremium(auth.id, "id, url, short_url, visits");
+  const urls = await getUrlsPremium(auth.id);
 
   return {
     auth: auth.auth,

@@ -16,13 +16,7 @@ git clone https://github.com/angelchavez19/acortador_de_urls.git
 npm install
 ```
 
-- Crear la Base de Datos
-
-```bash
-npm run create_bd
-```
-
-- La aplicación tiene una funcionalidad para enviar correos. En mi caso uso Gmail para enviar correos.
+- La aplicación tiene una funcionalidad para enviar correos. En mi caso uso Gmail para enviar correos
 
 - La aplicación necesita variables de entorno, asi que debes crear un archivo `.env` y configurar las variables de entorno
 
@@ -34,6 +28,14 @@ EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=587
 EMAIL_HOST_USER=email-para-enviar-correos
 EMAIL_HOST_PASSWORD=contraseña-de-aplicacion
+
+DATABASE_URL=postgresql://user:password@host:port/url_shortener?schema=public
+```
+
+- Hacer las migraciones
+
+```bash
+npx prisma migrate dev --name init
 ```
 
 - Finalmente, ejecutar la aplicación
@@ -46,7 +48,7 @@ npm run dev
 
 - Seguridad
   - Creación de usuarios con confirmación por correo
-  - Inicio de sesión de usuarios
+  - Inicio de sesión de usuarios con JWT
 - Plan gratuito
   - URLs de 30 usos máximo
   - Longitud fija de 8 caracteres

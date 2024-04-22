@@ -17,13 +17,13 @@ export default defineEventHandler(async (event) => {
     return;
   }
 
-  if (!(await isUnique("email", user.email))) {
+  if (!(await isUnique({ email: user.email }, "user"))) {
     setResponseStatus(event, 409);
     return;
   }
 
   let token = getToken();
-  while (!(await isUnique("token", token))) token = getToken();
+  while (!(await isUnique({ token }, "user"))) token = getToken();
 
   const href = `${SERVER}confirm/${token}`;
   await sendMail(
