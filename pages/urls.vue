@@ -1,7 +1,6 @@
 <script setup lang="ts">
 definePageMeta({ layout: "protected" });
 import { useUrlsPage } from "~/composables/pages/urls";
-import { SERVER } from "~/config/app.config";
 
 let {
   isSaved,
@@ -82,8 +81,8 @@ let {
           <td>{{ index + 1 }}</td>
           <td><Copy :text="url.url" />{{ url.url }}</td>
           <td>
-            <Copy :text="`${SERVER}p/${url.short_url}`" />
-            {{ `${SERVER}p/${url.short_url}` }}
+            <Copy :text="url.short_url" />
+            {{ url.short_url }}
           </td>
           <td>{{ url.visits }}</td>
           <td>

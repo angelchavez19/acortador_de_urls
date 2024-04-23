@@ -22,12 +22,6 @@ let { handleSubmit, url, shortUrl, content } = useIndexPage();
 </template>
 
 <style scope lang="sass">
-.HeaderLogin
-  background-color: $accent-1
-  padding: .5rem .7rem
-  a
-    color: $color-2
-    text-decoration: none
 .Hero,
 .Plans
   padding-top: 2rem
@@ -49,4 +43,10 @@ let { handleSubmit, url, shortUrl, content } = useIndexPage();
     flex-wrap: wrap
     width: 100%
     gap: 2rem
+// Dark
+.dark-mode
+  .Hero svg
+    fill: $white
+  .Plans h2
+    color: $color-2
 </style>

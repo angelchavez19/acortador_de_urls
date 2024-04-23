@@ -51,11 +51,7 @@ export const useLoginPage = () => {
         navigateTo("/urls");
         return t("toast.successLogin");
       },
-      (data: any) => {
-        if (data.status === 400) return t("toast.errorRegister");
-        else if (data.status === 409) return t("toast.emailExists");
-        return "Error";
-      }
+      (data: any) => t("toast.errorUser")
     );
 
     return true;

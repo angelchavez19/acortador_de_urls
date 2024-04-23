@@ -13,6 +13,8 @@
   animation: loader 2s steps(11) infinite
 .loader:before
   content: "Loading..."
+.dark-mode .loader:before
+  color: $white
 
 @keyframes loader
   to

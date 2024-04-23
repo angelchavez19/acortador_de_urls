@@ -4,13 +4,19 @@ import { Toaster } from "vue-sonner";
 
 <template>
   <BaseHeader to="/" :aria-label="$t('protected.urlsPageArial')">
+    <ClientOnly>
+      <ColorMode />
+    </ClientOnly>
     <div class="HeaderLogin">
       <NuxtLink to="/login">{{ $t("index.headerLogin") }}</NuxtLink>
     </div>
   </BaseHeader>
   <main class="Main">
     <slot />
-    <Toaster class="Toaster" theme="dark" />
+    <Toaster
+      class="Toaster"
+      :theme="$colorMode.value === 'light' ? 'dark' : 'light'"
+    />
   </main>
 </template>
 
@@ -19,4 +25,11 @@ import { Toaster } from "vue-sonner";
   @include flex-center-evenly()
   flex-direction: column
   width: 100%
+.HeaderLogin
+  background-color: $accent-1
+  padding: .5rem .3rem
+  a
+    color: $color-2
+    text-decoration: none
+    font-size: 1rem
 </style>

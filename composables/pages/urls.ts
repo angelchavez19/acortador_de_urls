@@ -3,7 +3,6 @@ import { useI18n } from "vue-i18n";
 import { toast } from "vue-sonner";
 import { string } from "yup";
 import { useAuth } from "~/composables/auth";
-import { SERVER } from "~/config/app.config";
 import { toJSON } from "~/helpers/json";
 import { useValidators } from "~/helpers/validators";
 import type { UrlSchema } from "~/interfaces/schema";
@@ -23,7 +22,7 @@ export const useUrlsPage = () => {
   let textToCopy: Ref<string> = ref("");
 
   const handleSubmit = async () => {
-    if (!url.value && !url.value.endsWith(SERVER)) {
+    if (!url.value && !url.value.includes(window.location.origin)) {
       toast.error(t("toast.errorField", { field: "url" }));
       url.value = "";
       return;
@@ -78,7 +77,7 @@ export const useUrlsPage = () => {
     url.value = "";
     isSaved.value = false;
     urls.value = response.urls;
-    textToCopy.value = `${SERVER}p/${shortUrl.value}`;
+    textToCopy.value = shortUrl.value;
   };
 
   const handleDelete = async (id: number) => {

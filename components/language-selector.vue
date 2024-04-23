@@ -5,21 +5,37 @@ import { useI18n } from "vue-i18n";
 let { locale, setLocale } = useI18n();
 
 let languages = ["en", "es"];
+let lang: Ref<string> = ref(locale);
 let langSelector: Ref<boolean> = ref(false);
+
+const onChangeLanguage = (_lang: string) => {
+  setLocale(_lang);
+  useHead({ htmlAttrs: { lang: _lang } });
+  lang.value = _lang;
+  localStorage.setItem("lang", _lang);
+};
+
+onMounted(() => {
+  setLocale(localStorage.getItem("lang") || "en");
+});
 </script>
 
 <template>
   <div class="Language">
     <div class="Language-locale" @click="langSelector = !langSelector">
       <IconLang />
-      <p>{{ locale }}</p>
+      <p>{{ lang }}</p>
     </div>
     <div
       class="Language-options"
       v-show="langSelector"
       @click="langSelector = !langSelector"
     >
-      <button type="button" v-for="lang in languages" @click="setLocale(lang)">
+      <button
+        type="button"
+        v-for="lang in languages"
+        @click="() => onChangeLanguage(lang)"
+      >
         {{ lang }}
       </button>
     </div>

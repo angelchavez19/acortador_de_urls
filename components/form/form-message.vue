@@ -8,7 +8,7 @@ defineProps({
 
 <template>
   <p class="FormMessage">
-    {{ message }} <a :href="href">{{ text }}</a>
+    {{ message }} <NuxtLink :to="href">{{ text }}</NuxtLink>
   </p>
 </template>
 

@@ -68,4 +68,12 @@ let { message, dataUrl, onDataUrlChange } = useQRPage();
     .QR-qr
       @include flex-center-center()
       outline: 2px solid #000
+// Dark
+.dark-mode .Section .QR
+  .QR-download
+    outline: 2px solid $color-2
+    svg
+      fill: $color-2
+  .QR-qr
+    outline: 2px solid $accent-4
 </style>

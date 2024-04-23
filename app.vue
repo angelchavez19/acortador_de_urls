@@ -4,6 +4,7 @@ import { useI18n } from "vue-i18n";
 let { t } = useI18n();
 
 useHead({
+  htmlAttrs: { lang: "en" },
   title: t("head.index.title"),
   meta: [{ name: "description", content: t("head.index.description") }],
 });

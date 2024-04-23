@@ -11,9 +11,19 @@ export default defineNuxtConfig({
       },
     },
   },
-  modules: ["@nuxtjs/i18n"],
+  modules: ["@nuxtjs/i18n", "@nuxtjs/color-mode"],
   i18n: {
     vueI18n: "./i18n.config.ts",
+  },
+  colorMode: {
+    preference: "light",
+    fallback: "light",
+    hid: "nuxt-color-mode-script",
+    globalName: "__NUXT_COLOR_MODE__",
+    componentName: "ColorScheme",
+    classPrefix: "",
+    classSuffix: "-mode",
+    storageKey: "nuxt-color-mode",
   },
   routeRules: {
     "/urls": { ssr: false },

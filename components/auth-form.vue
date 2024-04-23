@@ -12,7 +12,10 @@ import { Toaster } from "vue-sonner";
         <slot />
       </div>
     </section>
-    <Toaster class="Toaster" theme="dark" />
+    <Toaster
+      class="Toaster"
+      :theme="$colorMode.value === 'light' ? 'dark' : 'light'"
+    />
   </main>
 </template>
 
@@ -30,7 +33,7 @@ section
     padding: 1rem
     border-radius: 20px
     gap: 1rem
-    margin-top: 1.5rem
+    margin: 1.5rem 0
     .FormAuth-logo
       width: $logo-size
       height: $logo-size

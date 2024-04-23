@@ -24,6 +24,10 @@ export const urlsEN = {
     visits: "Visits",
     delete: "Delete",
   },
+  modes: {
+    light: "Light mode",
+    dark: "Dark mode",
+  },
 };
 
 export const urlsES = {
@@ -51,5 +55,9 @@ export const urlsES = {
     short_url: "URL corta",
     visits: "Visitas",
     delete: "Eliminar",
+  },
+  modes: {
+    light: "Modo claro",
+    dark: "Modo oscuro",
   },
 };

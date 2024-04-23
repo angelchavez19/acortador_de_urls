@@ -1,6 +1,7 @@
 import { encrypt, compareCrypt } from "~/helpers/bcrypt";
 import { PrismaClient, Prisma } from "@prisma/client";
 import type { StateUser } from "~/types/user";
+import { SERVER } from "~/config/app.config";
 
 const prisma = new PrismaClient();
 
@@ -66,13 +67,13 @@ export const verifyUser = async (
   email: string,
   password: string
 ): Promise<(boolean | undefined)[] | (number | boolean)[]> => {
-  const user: { id: number; password: string } | null =
+  const user: { id: number; password: string; confirm: boolean } | null =
     await prisma.user.findUnique({
       where: { email },
-      select: { id: true, password: true },
+      select: { id: true, password: true, confirm: true },
     });
 
-  if (!user) return [undefined, false];
+  if (!user || !user.confirm) return [undefined, false];
   return [user.id, await compareCrypt(password, user.password)];
 };
 
@@ -159,7 +160,7 @@ export const getUrlsPremium = async (
     visits: number;
   }[]
 > => {
-  return await prisma.urlPremium.findMany({
+  let urls = await prisma.urlPremium.findMany({
     where: { userId: id },
     select: {
       id: true,
@@ -168,6 +169,10 @@ export const getUrlsPremium = async (
       visits: true,
     },
   });
+  urls.forEach((url) => {
+    url.short_url = `${SERVER}p/${url.short_url}`;
+  });
+  return urls;
 };
 
 export const payPremium = async (id: number): Promise<boolean> => {

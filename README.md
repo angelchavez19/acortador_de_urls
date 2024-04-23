@@ -4,19 +4,19 @@ El proyecto es un acortador de URLs que ofrece un plan gratuito y un plan de pag
 
 ## Ejecutar aplicación
 
-- Lo primero será clonar el repositorio
+- Lo primero será clonar el repositorio.
 
 ```bash
 git clone https://github.com/angelchavez19/acortador_de_urls.git
 ```
 
-- Instalar las librerias necesarias
+- Instalar las librerias necesarias.
 
 ```bash
 npm install
 ```
 
-- La aplicación tiene una funcionalidad para enviar correos. En mi caso uso Gmail para enviar correos
+- La aplicación tiene una funcionalidad para enviar correos, en mi caso uso Gmail.
 
 - La aplicación necesita variables de entorno, asi que debes crear un archivo `.env` y configurar las variables de entorno
 
@@ -32,13 +32,13 @@ EMAIL_HOST_PASSWORD=contraseña-de-aplicacion
 DATABASE_URL=postgresql://user:password@host:port/url_shortener?schema=public
 ```
 
-- Hacer las migraciones
+- Hacer las migraciones.
 
 ```bash
 npx prisma migrate dev --name init
 ```
 
-- Finalmente, ejecutar la aplicación
+- Finalmente, ejecutar la aplicación.
 
 ```bash
 npm run dev
@@ -46,23 +46,24 @@ npm run dev
 
 ## Funcionalidades
 
-- Seguridad
-  - Creación de usuarios con confirmación por correo
-  - Inicio de sesión de usuarios con JWT
-- Plan gratuito
-  - URLs de 30 usos máximo
-  - Longitud fija de 8 caracteres
-- Plan Pro
-  - URLs sin límite de uso
-  - Personalización de URLs
-  - Gestión de URLs
-  - Generación de códigos QR
+- Light/Dark Mode
+- Seguridad:
+  - Creación de usuarios con confirmación por correo.
+  - Inicio de sesión de usuarios con JWT.
+  - Recuperación de contraseñas.
+- Plan gratuito:
+  - URLs de 30 usos máximo.
+  - Longitud fija de 8 caracteres.
+- Plan Pro:
+  - URLs sin límite de uso.
+  - Personalización de URLs.
+  - Gestión de URLs.
+  - Generación de códigos QR.
 
 ## Funcionalidades por Implementar
 
-- Seguridad
-  - Recuperación de contraseñas
-  - Registro con Oauth 2.0
+- Seguridad:
+  - Registro con Oauth 2.0.
 
 ## Modelo Relacional de la Base de Datos
 

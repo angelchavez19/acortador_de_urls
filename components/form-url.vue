@@ -64,4 +64,5 @@ defineProps({
   button svg
     width: 25px
     height: 25px
+    fill: $accent-1 !important
 </style>

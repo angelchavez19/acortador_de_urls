@@ -26,13 +26,17 @@ onMounted(async () => {
     to="/urls"
     :aria-label="$t('protected.urlsPageArial')"
   >
+    <ColorMode />
     <NuxtLink to="/qr" class="PageQR" :aria-label="$t('qr.header.ariaLink')">
       <IconQr />
     </NuxtLink>
   </BaseHeader>
   <main v-if="auth" class="Main">
     <slot />
-    <Toaster class="Toaster" theme="dark" />
+    <Toaster
+      class="Toaster"
+      :theme="$colorMode.value === 'light' ? 'dark' : 'light'"
+    />
   </main>
 </template>
 

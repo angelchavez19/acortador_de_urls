@@ -70,3 +70,17 @@ body
         border-radius: 6px
     [data-title]
         position: relative
+
+.dark-mode body
+    background-color: $bg-color-dark
+    .Main .Message
+        h1,
+        p
+            color: $color-2
+        a,
+        button
+            outline: 1px solid $color-2
+            box-shadow: 0 0 5px 0 $accent-2
+            color: $color-2
+    .Toaster li
+        box-shadow: 0 5px 10px $accent-2 !important
