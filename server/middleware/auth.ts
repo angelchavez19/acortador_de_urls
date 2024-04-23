@@ -1,6 +1,7 @@
 import { decodeJWT } from "~/helpers/token";
+import { getName } from "~/services/database";
 
-export default defineEventHandler((event) => {
+export default defineEventHandler(async (event) => {
   let token = getHeader(event, "Authorization");
 
   if (!token) {
@@ -26,5 +27,9 @@ export default defineEventHandler((event) => {
     return;
   }
 
-  event.context.auth = { auth: true, id: decodeToken.id };
+  event.context.auth = {
+    auth: true,
+    id: decodeToken.id,
+    name: await getName(decodeToken.id),
+  };
 });

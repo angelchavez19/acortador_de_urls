@@ -6,10 +6,12 @@ import { useAuth } from "~/composables/auth";
 const { requestToAPIProtected } = useAuth();
 
 let auth: Ref<null | boolean> = ref(null);
+let name: Ref<null | string> = ref(null);
 
 onMounted(async () => {
   const response = await requestToAPIProtected("/api/auth");
   auth.value = response.auth;
+  name.value = response.name.name;
 });
 </script>
 
@@ -30,6 +32,7 @@ onMounted(async () => {
     <NuxtLink to="/qr" class="PageQR" :aria-label="$t('qr.header.ariaLink')">
       <IconQr />
     </NuxtLink>
+    <p class="Name">{{ name }}</p>
   </BaseHeader>
   <main v-if="auth" class="Main">
     <slot />
@@ -51,4 +54,25 @@ onMounted(async () => {
     width: 25px
     height: 25px
     fill: $white
+.Name
+  color: $color-2
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  max-width: 60px
+@media (min-width: 400px)
+  .Name
+    max-width: 100px
+@media (min-width: 500px)
+  .Name
+    max-width: 180px
+@media (min-width: 600px)
+  .Name
+    max-width: 290px
+@media (min-width: 700px)
+  .Name
+    max-width: 400px
+@media (min-width: 800px)
+  .Name
+    max-width: 490px
 </style>

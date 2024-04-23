@@ -103,8 +103,7 @@ let {
 <style scope lang="sass">
 .Section
   width: calc( 100% - 1rem ) !important
-.Pay
-  p span
+.Pay p span
     border: 2px solid $accent-1
 .Urls
   display: flex

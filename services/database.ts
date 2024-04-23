@@ -175,6 +175,13 @@ export const getUrlsPremium = async (
   return urls;
 };
 
+export const getName = async (id: number) => {
+  return await prisma.user.findUnique({
+    where: { id },
+    select: { name: true },
+  });
+};
+
 export const payPremium = async (id: number): Promise<boolean> => {
   const user: { last_payment: Date | null } | null =
     await prisma.user.findUnique({
