@@ -33,9 +33,26 @@ const onSubmit = async (e: SubmitEvent) => {
       <FormInputBase v-for="field in schema.fields">
         <FormInputPassword
           v-if="field.type === 'custom-password'"
-          v-bind="field"
+          v-bind="{
+            name: field.name,
+            label: field.label,
+            placeholder: field.placeholder,
+          }"
         />
-        <FormInputText v-else v-bind="field" />
+        <FormInputText
+          v-else
+          v-bind="{
+            label: field.label,
+            type: field.type,
+            name: field.name,
+            placeholder: field.placeholder,
+            rules: field.rules,
+            as: field.as,
+          }"
+        />
+        <NuxtLink t v-if="field.link" :to="field.link.href">{{
+          field.link.text
+        }}</NuxtLink>
       </FormInputBase>
       <FormInputSubmit :value="schema.submitValue" />
       <FormMessage v-for="message in schema.messages" v-bind="message" />

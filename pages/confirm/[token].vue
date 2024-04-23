@@ -20,5 +20,3 @@ let { confirmed } = useConfirmedPage();
     <a href="/login">{{ $t("confirmed.login") }} →</a>
   </section>
 </template>
-
-<style scope lang="sass"></style>

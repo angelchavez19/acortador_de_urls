@@ -3,7 +3,6 @@ defineProps({
   name: { type: String, required: true },
   label: { type: String },
   placeholder: { type: String },
-  type: { type: String },
 });
 import { ref, type Ref } from "vue";
 import { useValidators } from "~/helpers/validators";

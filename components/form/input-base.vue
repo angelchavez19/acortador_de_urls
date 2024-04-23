@@ -1,5 +1,3 @@
-<script setup lang="ts"></script>
-
 <template>
   <div class="input">
     <slot />
@@ -11,4 +9,8 @@
   @include flex--start()
   flex-direction: column
   width: 100%
+  a
+    margin-top: .5rem
+    color: $white
+    text-align: center
 </style>

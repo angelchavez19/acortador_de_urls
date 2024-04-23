@@ -4,6 +4,7 @@ export const loginEN = {
   messageText: "Create an account",
   form: {
     login: "Log In",
+    message: "Forgot your password?",
   },
 };
 
@@ -13,5 +14,6 @@ export const loginES = {
   messageText: "Crea una cuenta",
   form: {
     login: "Iniciar Sesión",
+    message: "¿Olvidaste tu contraseña?",
   },
 };

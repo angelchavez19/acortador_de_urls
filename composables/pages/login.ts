@@ -14,7 +14,13 @@ export const useLoginPage = () => {
   const { toastPromise } = useToastPromise();
 
   const schema: SchemaType = {
-    fields: [inputRequiredEmail, inputRequiredPassword],
+    fields: [
+      inputRequiredEmail,
+      {
+        ...inputRequiredPassword,
+        link: { text: t("login.form.message"), href: "/reset-password" },
+      },
+    ],
     submitValue: t("login.form.login"),
     messages: [
       {
@@ -52,7 +58,7 @@ export const useLoginPage = () => {
       }
     );
 
-    return false;
+    return true;
   };
 
   return { handleSubmit, schema };

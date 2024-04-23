@@ -24,8 +24,6 @@ logs
 !.env.example
 
 # DB
-db.db
-db.db-journal
 migrations/
 
 # TODO

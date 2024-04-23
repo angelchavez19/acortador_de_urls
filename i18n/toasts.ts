@@ -19,6 +19,9 @@ export const toastEN = {
   emptyShortURL: "The short URL is empty",
   errorDeleteURL: "An error occurred. Please refresh the page.",
   successDeleteURL: "The URL was successfully deleted.",
+  successReset: "Check your email to change your password",
+  userNotExist: "The email is not registered",
+  userNotConfirmed: "The email is not confirmed",
 };
 
 export const toastES = {
@@ -30,7 +33,7 @@ export const toastES = {
   successUrl: "La URL se guardo exitosamente",
   errorUrl: "La URL ingresada es inválida",
   copy: "Se copio en el portapapeles",
-  errorCopy: "No se pudo en el portapapeles: {value}",
+  errorCopy: "No se pudo copiar en el portapapeles: {value}",
   ariaCopy: "Copiar",
   errorUrl507: "No se pudo guardar su url por falta de almacenamiento",
   errorAuth: "Tu sesión ha expirado",
@@ -42,4 +45,7 @@ export const toastES = {
   emptyShortURL: "La URL corta esta vacia",
   errorDeleteURL: "Ocurrio un error. Por favor, actualiza la página.",
   successDeleteURL: "Se eliminó la URL con éxito.",
+  successReset: "Revise su correo para cambiar su contraseña",
+  userNotExist: "El correo no está registrado.",
+  userNotConfirmed: "El correo no está confirmado",
 };

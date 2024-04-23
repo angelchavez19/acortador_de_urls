@@ -7,3 +7,11 @@ export interface UserLogin {
   email: string;
   password: string;
 }
+
+export interface UserReset {
+  email: string;
+}
+
+export interface UserConfirmReset {
+  password: string;
+}

@@ -39,4 +39,5 @@ section
       color: $color-2
       font-size: 2rem
       text-transform: uppercase
+      text-align: center
 </style>

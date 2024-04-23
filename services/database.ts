@@ -94,6 +94,37 @@ export const getUserState = async (id: number): Promise<false | StateUser> => {
   return "paid";
 };
 
+export const resetPassword = async (
+  email: string,
+  token: string
+): Promise<true | "unregistered" | "unconfirmed"> => {
+  const user = await prisma.user.findUnique({
+    where: { email },
+    select: { confirm: true },
+  });
+
+  if (!user) return "unregistered";
+  if (!user.confirm) return "unconfirmed";
+
+  await prisma.user.update({ where: { email }, data: { token } });
+  return true;
+};
+
+export const changePassword = async (token: string, password: string) => {
+  const user = await prisma.user.findUnique({
+    where: { token },
+    select: { confirm: true },
+  });
+
+  if (!user || !user.confirm) return false;
+
+  const res = await prisma.user.update({
+    where: { token },
+    data: { token: null, password: await encrypt(password) },
+  });
+  return Boolean(res);
+};
+
 export const insertUrl = async (
   url: string,
   short_url: string

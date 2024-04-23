@@ -7,6 +7,10 @@ export interface SchemaType {
     as?: string;
     autocomplete?: string;
     rules?: ((value: string) => true | string)[];
+    link?: {
+      text: string;
+      href: string;
+    };
   }[];
   submitValue: string;
   messages: {
