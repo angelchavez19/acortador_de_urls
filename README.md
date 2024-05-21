@@ -60,11 +60,6 @@ npm run dev
   - Gestión de URLs.
   - Generación de códigos QR.
 
-## Funcionalidades por Implementar
-
-- Seguridad:
-  - Registro con Oauth 2.0.
-
 ## Modelo Relacional de la Base de Datos
 
 ![Modelo Relacional de la Base de Datos](./docs/acortador-urls-bd.png)
